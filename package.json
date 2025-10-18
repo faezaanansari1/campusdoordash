@@ -1,0 +1,28 @@
+{
+  "name": "campusdoordash",
+  "version": "1.0.0",
+  "description": "For installing dependencies so as to be able to run the app, please see the starting steps of this tutorial: https://www.mongodb.com/resources/languages/mern-stack-tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd frontend && npm run dev",
+    "server": "cd backend && node server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\""  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-secondary:faezaanansari1/campusdoordash.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10"
+  }
+}
