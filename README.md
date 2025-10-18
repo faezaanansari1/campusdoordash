@@ -1,4 +1,16 @@
 # campusdorodash
 
-For installing dependencies so as to be able to run the app, please see the starting steps of this tutorial:
-https://www.mongodb.com/resources/languages/mern-stack-tutorial
+To install dependencies, first [install Node js](https://nodejs.org/en/download). This will also install npm, or node package manager. Then run the command "npm install" at the home directory, frontend directory, and backend directory of the project. 
+
+```
+npm install
+cd backend
+npm install
+cd ..
+cd frontend
+npm install
+```
+
+This should install all dependencies
+
+To start up the project, you can use "npm run dev". The URL (localhost) should be in the terminal
