@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
 // import umbclogo from '../assets/umbclogo.png'
@@ -13,12 +12,12 @@ const Navbar = () => {
         </div>
         <ul>
           <li className="active">
-            <Link to="/">Home </Link>
             <Link to="/about">About </Link>
             <Link to="/catalog">Catalog </Link>
             <Link to="/cart">Cart </Link>
-            <Link to="/contact">Contact </Link>
             <Link to="/contact">Profile </Link>
+            <Link to="/contact">Orders </Link>
+            <Link to="/contact">Contact </Link>
           </li>
         </ul>
       </nav>

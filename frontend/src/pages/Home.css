@@ -25,8 +25,8 @@ p {
   padding: 50px;
 }
 
-button {
-  background-color: #FFD700;          /* gold base */
+.home-page-btns {
+  background-color: #FFD700;
   color: black;                       /* strong text contrast */
   font-family: 'Bebas Neue', sans-serif; /* collegiate block lettering */
   font-size: 1.3rem;
@@ -41,16 +41,14 @@ button {
   box-shadow: 4px 4px 0 black;        /* punchy offset shadow */
 }
 
-/* hover: tilt, invert color, offset like a rebellious poster cutout */
-button:hover {
+.home-page-btns:hover {
   background-color: black;
   color: #FFD700;
   box-shadow: 0 0 0 black;
   transform: translate(4px, 4px);
 }
 
-/* active: tactile press-down */
-button:active {
+.home-page-btns:active {
   transform: translate(6px, 6px);
   box-shadow: 0 0 0 black;
 }
