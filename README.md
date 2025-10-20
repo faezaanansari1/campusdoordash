@@ -13,4 +13,4 @@ npm install
 
 This should install all dependencies
 
-To start up the project, you can use "npm run dev". The URL (localhost) should be in the terminal
+To start up the project, you can use "npm run dev" at the root level of the project. The URL (localhost) should be in the terminal
