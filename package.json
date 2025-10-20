@@ -4,10 +4,10 @@
   "description": "For installing dependencies so as to be able to run the app, please see the starting steps of this tutorial: https://www.mongodb.com/resources/languages/mern-stack-tutorial",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd frontend && npm run dev",
     "server": "cd backend && node server.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""  },
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"green,cyan\" \"npm run server\" \"npm run client\""
+  },
   "repository": {
     "type": "git",
     "url": "git@github-secondary:faezaanansari1/campusdoordash.git"
