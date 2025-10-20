@@ -1,0 +1,56 @@
+.home {
+  display: grid;
+  place-items: center;
+}
+
+h1 {
+  /* height: 50vh; */
+  font-size: 65px;
+  margin-top: 125px;
+}
+
+p {
+  /* margin: 100px; */
+  /* margin: 0px 150px 150px 150px; */
+  margin: 10px 150px; /* smaller margin overall */
+  line-height: 1.4;
+  font-weight: lighter;
+  font-size: 30px;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 30px;
+  padding: 50px;
+}
+
+button {
+  background-color: #FFD700;          /* gold base */
+  color: black;                       /* strong text contrast */
+  font-family: 'Bebas Neue', sans-serif; /* collegiate block lettering */
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  padding: 12px 28px;
+  border: 3px solid black;
+  border-radius: 8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 4px 4px 0 black;        /* punchy offset shadow */
+}
+
+/* hover: tilt, invert color, offset like a rebellious poster cutout */
+button:hover {
+  background-color: black;
+  color: #FFD700;
+  box-shadow: 0 0 0 black;
+  transform: translate(4px, 4px);
+}
+
+/* active: tactile press-down */
+button:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 black;
+}
