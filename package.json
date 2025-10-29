@@ -2,6 +2,7 @@
   "name": "campusdoordash",
   "version": "1.0.0",
   "description": "For installing dependencies so as to be able to run the app, please see the starting steps of this tutorial: https://www.mongodb.com/resources/languages/mern-stack-tutorial",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "client": "cd frontend && npm run dev",
@@ -16,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
