@@ -1,16 +1,18 @@
 // Code courtesy of https://dev.to/afromatt6288/create-a-popup-form-for-login-and-then-style-it-37jl
 
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import './Login.css'
 
 const Login = (props) => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     function handleLogin(e) {
-        e.preventDefault()
-        // Code to handle login goes here
-        props.toggle()
+      e.preventDefault();
+      props.toggle();
+      navigate('/catalog');
     }
 
     return (

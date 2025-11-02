@@ -1,0 +1,75 @@
+.card {
+  background-color: #FFD700;
+  color: black;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 6px 6px 0 black;
+  text-align: center;
+
+  /* layout */
+  /* width: 420px; */
+  width: 600px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Dynamic lift effect on hover */
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 10px 10px 0 black;
+}
+
+.card img {
+  width: 85%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border: 3px solid black;
+}
+
+.card h2, 
+.card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  font-size: 1.7rem;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+
+.card p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 10px 20px 0 20px;
+  text-align: center;
+}
+
+.card button {
+  margin-top: auto;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 3px solid black;
+  border-radius: 6px;
+  background-color: black;
+  color: #FFD700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 3px 3px 0 #FFD700;
+}
+
+.card button:hover {
+  background-color: #FFD700;
+  color: black;
+  box-shadow: 3px 3px 0 black;
+}

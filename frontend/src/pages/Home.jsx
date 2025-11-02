@@ -5,7 +5,7 @@ import './Home.css'
 import Login from '../components/Login'
 import Signup from '../components/Signup'
 
-const Navbar = () => {
+const Home = () => {
   // TODO: These popup states and functions need to be moved somewhere more global because they can occur at different places across the app.
   const [loginPopup, setLoginPopup] = useState(false)
   const [signupPopup, setSignupPopup] = useState(false)
@@ -36,4 +36,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Home;
