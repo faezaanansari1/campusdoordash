@@ -1,3 +1,7 @@
+h1 {
+  text-align: center;
+}
+
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -8,9 +12,109 @@
   background-color: #fffef8;
 }
 
-
 .container div {
   background-color: rgba(255, 217, 0, 0.1);
   padding: 0;
   margin: 0;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* background-color: rgba(255, 217, 0, 0.25); */
+  /* padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 black;
+  margin: 20px auto;
+  max-width: 1000px; */
+}
+
+/* --- Title ---
+.catalog-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: black;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+  margin: 10px;
+} */
+
+/* --- Search Box --- */
+.search-box {
+  flex: 0;
+  display: flex;
+  justify-content: center;
+  /* margin: 10px 20px; */
+}
+
+.search-box input {
+  width: 200px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: rgb(255, 217, 0);
+  color: black;
+  outline: none;
+  box-shadow: 2px 2px 0 black;
+  transition: all 0.2s ease;
+}
+
+.search-box input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.search-box input:focus {
+  background-color: #ffe766;
+  border-color: rgb(255, 217, 0);
+  box-shadow: 3px 3px 0 black;
+}
+
+/* --- Dropdown --- */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: rgb(255, 217, 0);
+  color: black;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  border: 2px solid black;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 black;
+  transition: all 0.2s ease;
+}
+
+.dropbtn:hover {
+  background-color: #ffe766;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fffbea;
+  min-width: 160px;
+  border: 1px solid black;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 black;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 10px 14px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(255, 217, 0);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
