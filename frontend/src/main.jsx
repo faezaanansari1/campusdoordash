@@ -7,6 +7,7 @@ import Layout from './Layout.jsx'
 import Home from './pages/Home.jsx'
 import Catalog from './pages/Catalog.jsx'
 import Menu from './pages/Menu.jsx'
+import Cart from './pages/Cart.jsx';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/catalog', element: <Catalog /> },
       { path: '/catalog/:id', element: <Menu /> },
+      { path: 'cart', element: <Cart /> },
       // more routes here later
     ],
   },
