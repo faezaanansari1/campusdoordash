@@ -8,7 +8,7 @@ const Navbar = () => {
       <nav className="nav-black">
         <div className="image-logo">
             {/* <img src={umbclogo} alt="" className='logo' /> */}
-            <Link to="/" className="site-title">FetchEats</Link>
+            <Link to="/" className="site-title">RetrieverEats</Link>
         </div>
         <ul>
           <li className="active">

@@ -85,7 +85,7 @@ const Catalog = () => {
 
   return (
     <div className="catalog">
-      <h1>Our Catalog</h1>
+      <h1>The Catalog</h1>
 
       <div className='filters'>
         <div className="search-box">
@@ -97,7 +97,7 @@ const Catalog = () => {
         </div>
 
         <div className="dropdown">
-          <button className="dropbtn">Location</button>
+          <button className="dropbtn">Filter location</button>
           <div className="dropdown-content">
             <Link to="/catalog" onClick={() => handleSelect("")}>All</Link>
             <Link to="/catalog" onClick={() => handleSelect("Commons")}>Commons</Link>
