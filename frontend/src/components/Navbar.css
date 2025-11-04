@@ -7,7 +7,7 @@
 }
 
 .nav-black {
-  background-color: #FFD700;
+  background-color: #000;
   display: flex;
   width: 100%;
   min-height: 70px;
@@ -48,7 +48,7 @@
 }
 
 .nav-black a {
-  color: black;
+  color: #FFD700;
   text-decoration: none;
   margin: 0 15px;
 }
@@ -62,6 +62,6 @@
 }
 
 .nav {
-  background-color: #000;
+  background-color: #FFD700;
   min-height: 10px;
 }
