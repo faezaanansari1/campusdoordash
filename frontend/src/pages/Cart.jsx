@@ -10,7 +10,7 @@ const Cart = (props) => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    setTotal(sumPrices(props.cart));
+    setTotal(sumPrices(props.cart).toFixed(2));
   }, [props.cart])
 
   return (

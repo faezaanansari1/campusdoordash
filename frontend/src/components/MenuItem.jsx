@@ -1,4 +1,4 @@
-// import './Card.css'
+import './MenuItem.css'
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const MenuItem = (props) => {
                 console.log("added to cart");
             }
         }}
-        className="like-btn"
+        className="cart-btn"
         >Add to cart</button>
         <br></br>
     </div>
