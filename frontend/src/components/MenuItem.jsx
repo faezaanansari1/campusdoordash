@@ -8,6 +8,14 @@ const MenuItem = (props) => {
         <p>{props.description}</p>
         <p>{props.calories}</p>
         <p>${props.price.toFixed(2)}</p>
+        <button
+        onClick={(e) => {
+            e.stopPropagation();
+            props.addToCart({"name": props.name, "price": props.price});
+            console.log("added to cart");
+        }}
+        className="like-btn"
+        >Add to cart</button>
         <br></br>
     </div>
   );
