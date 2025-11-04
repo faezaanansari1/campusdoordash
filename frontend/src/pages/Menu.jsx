@@ -4,7 +4,7 @@ import MenuItem from '../components/MenuItem'
 
 import {menuData} from '../data'
 
-const Menu = () => {
+const Menu = (props) => {
     const location = useLocation();
     const stateData = location.state;
     const [mainMenuItems, setMainMenuItems] = useState([]);
@@ -20,6 +20,9 @@ const Menu = () => {
         getMenuItems();
     }, [])
 
+    const addToCart = (itemToAdd) => {
+        props.setCart([...props.cart, itemToAdd]);
+    }
 
     return (
     <div>
@@ -32,6 +35,7 @@ const Menu = () => {
         //   image_url={item.image_url}
           calories={item.calories}
           description={item.description}
+          addToCart={addToCart}
         />
       ))}
     </div>
