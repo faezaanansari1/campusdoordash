@@ -30,6 +30,7 @@ const Menu = (props) => {
       {menuData.map((item, index) => (
         <MenuItem
           key={index}
+          user={props.user}
           name={item.name}
           price={item.price}
         //   image_url={item.image_url}

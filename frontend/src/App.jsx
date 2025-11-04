@@ -8,13 +8,19 @@ import Cart from './pages/Cart';
 import './index.css'
 
 const App = () => {
+  const [loggedInUser, setLoggedInUser] = useState("User");
   const [cart, setCart] = useState([]);
+
+  const removeFromCart = (idToRemove) => {
+    const prevState = cart;
+    setCart(prevState => prevState.filter(item => item.id !== idToRemove));
+  }
 
   // ROUTES
   let element = useRoutes([
     {
       path: "/",
-      element:<Home />
+      element:<Home setUser={setLoggedInUser} />
     },
     {
       path:"/catalog",
@@ -22,11 +28,11 @@ const App = () => {
     },
     {
       path:"/catalog/:id",
-      element: <Menu cart={cart} setCart={setCart} />
+      element: <Menu user={loggedInUser} cart={cart} setCart={setCart} />
     },
     {
       path:"/cart/",
-      element: <Cart cart={cart} />
+      element: <Cart cart={cart} user={loggedInUser} removeFromCart={removeFromCart} />
     }
   ]);
 

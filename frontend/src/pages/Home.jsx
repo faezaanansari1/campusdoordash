@@ -5,7 +5,7 @@ import './Home.css'
 import Login from '../components/Login'
 import Signup from '../components/Signup'
 
-const Home = () => {
+const Home = (props) => {
   // TODO: These popup states and functions need to be moved somewhere more global because they can occur at different places across the app.
   const [loginPopup, setLoginPopup] = useState(false)
   const [signupPopup, setSignupPopup] = useState(false)
@@ -31,9 +31,9 @@ const Home = () => {
               <button className="home-page-btns">View Catalog</button>
             </Link>
             <button className="home-page-btns" onClick={toggleLoginPopup}>Log in</button>
-            {loginPopup ? <Login toggle={toggleLoginPopup} /> : null}
+            {loginPopup ? <Login toggle={toggleLoginPopup} setUser={props.setUser} /> : null}
             <button className="home-page-btns" onClick={toggleSignupPopup}>Sign up</button>
-            {signupPopup ? <Signup toggle={toggleSignupPopup} /> : null}
+            {signupPopup ? <Signup toggle={toggleSignupPopup} setUser={props.setUser} /> : null}
         </div>
     </div>
   );
