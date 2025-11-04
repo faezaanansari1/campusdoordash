@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-// import Card from '../components/Card'
+import MenuItem from '../components/MenuItem'
 
 import {menuData} from '../data'
 
@@ -23,7 +23,17 @@ const Menu = () => {
 
     return (
     <div>
-        <h1>Menu for {stateData.name}</h1>
+      <h1>{stateData.name} Menu</h1>
+      {menuData.map((item, index) => (
+        <MenuItem
+          key={index}
+          name={item.name}
+          price={item.price}
+        //   image_url={item.image_url}
+          calories={item.calories}
+          description={item.description}
+        />
+      ))}
     </div>
   );
 };
