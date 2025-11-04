@@ -1,49 +1,29 @@
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
-import Card from '../components/Card'
+import { useLocation } from "react-router-dom";
+// import Card from '../components/Card'
+
+import {menuData} from '../data'
 
 const Menu = () => {
-//   const catalogData = [
-//       {
-//         "id": 1,
-//         "name": "Chick-fil-A",
-//         "img": chickimg,
-//         "loc": "University Center",
-//         "desc": "A campus favorite, serving classic chicken sandwiches, nuggets, waffle fries, and milkshakes."
-//       },
-//       {
-//         "id": 2,
-//         "name": "Starbucks",
-//         "img": sbucksimg,
-//         "loc": "University Center",
-//         "desc": "Full-service Starbucks in the University Center with all your favorite drinks, bakery items, and snacks."
-//       },
-//       {
-//         "id": 3,
-//         "name": "Halal Shack",
-//         "img": shackimg,
-//         "loc": "Commons",
-//         "desc": "Halal Shack is a fast-casual Middle Eastern/Mediterranean spot in The Commons food court."
-//       },
-//       {
-//         "id": 4,
-//         "name": "Dunkin' Donuts",
-//         "img": dunkinimg,
-//         "loc": "Commons",
-//         "desc": "Your spot for coffee/espresso drinks, donuts, bagels, and breakfast sandwiches."
-//       },
-//       {
-//         "id": 5,
-//         "name": "Einstein Bros. Bagel",
-//         "img": dunkinimg,
-//         "loc": "AOK Library",
-//         "desc": "Bagels, sandwiches, coffee, and breakfast staples located in the AOK Library."
-//       }
-//     ];
+    const location = useLocation();
+    const stateData = location.state;
+    const [mainMenuItems, setMainMenuItems] = useState([]);
 
-  return (
+    // Gets all menu items (menu data) from db
+    // TODO: Read menu items from db
+    const getMenuItems = () => {
+        setMainMenuItems(menuData);
+    };
+
+    // When page initially loads, get all menu items (menu data)
+    useEffect(() => {
+        getMenuItems();
+    }, [])
+
+
+    return (
     <div>
-      <h1>Hello world</h1>
+        <h1>Menu for {stateData.name}</h1>
     </div>
   );
 };
