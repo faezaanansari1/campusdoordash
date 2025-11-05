@@ -1,14 +1,18 @@
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import './Login.css'
 
 const Signup = (props) => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     function handleSignup(e) {
         e.preventDefault()
-        // Code to handle sign up goes here
+        // handle signup
         props.toggle()
+        props.setUser(username)
+        navigate('/catalog');
     }
 
     return (

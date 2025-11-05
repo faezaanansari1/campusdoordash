@@ -1,7 +1,10 @@
-// import './Card.css'
+import './MenuItem.css'
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const MenuItem = (props) => {
+  const navigate = useNavigate();
+  
   return (
     <div className='Menu'>
         <p>{props.name}</p>
@@ -11,10 +14,15 @@ const MenuItem = (props) => {
         <button
         onClick={(e) => {
             e.stopPropagation();
-            props.addToCart({"name": props.name, "price": props.price});
-            console.log("added to cart");
+            if (props.user === "User") {
+                navigate('/');
+            } else {
+                const randNum = Math.random();
+                props.addToCart({"name": props.name, "price": props.price, "id": randNum});
+                console.log("added to cart");
+            }
         }}
-        className="like-btn"
+        className="cart-btn"
         >Add to cart</button>
         <br></br>
     </div>

@@ -1,0 +1,21 @@
+.cart-btn {
+  margin-top: auto;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 3px solid black;
+  border-radius: 6px;
+  background-color: black;
+  color: #FFD700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 3px 3px 0 #FFD700;
+}
+
+.cart-btn:hover {
+  background-color: #FFD700;
+  color: black;
+  box-shadow: 3px 3px 0 black;
+  cursor: pointer;
+}

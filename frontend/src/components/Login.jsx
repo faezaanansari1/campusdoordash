@@ -1,5 +1,5 @@
 // Code courtesy of https://dev.to/afromatt6288/create-a-popup-form-for-login-and-then-style-it-37jl
-
+// TODO truncate Login and Signup as one component.
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import './Login.css'
@@ -11,7 +11,9 @@ const Login = (props) => {
 
     function handleLogin(e) {
       e.preventDefault();
+      // handle login
       props.toggle();
+      props.setUser(username)
       navigate('/catalog');
     }
 
