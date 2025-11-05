@@ -11,16 +11,23 @@ export const register = async (req, res)=>{
             return res.json({success: false, message:'Missing Details'});
         }
 
+        // Password length must be greater than 8
         if (password.length < 8) {
            return res.json({ success: false, message: "Password too short" });
         }
 
-        const existingUser = await User.findOne({email});
+        // Normalize email
+        const normEmail = email.trim().toLowerCase();
+
+        // Check if user exists
+        const existingUser = await User.findOne({emmail: normEmail});
         if(existingUser)
             return res.json({success: false, message:'User Already Exists'});
 
+        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Create User
         const user = await User.create({
             name, 
             email, 
@@ -28,8 +35,10 @@ export const register = async (req, res)=>{
             permission: permission && ["customer", "retriever", "admin"].includes(permission) ? permission : "customer",
         });
 
+        // Issue JWT
         const token = jwt.sign({id: user._id,permission: user.permission},process.env.JWT_SECRET,{expiresIn: "7d"});
 
+        // Set auth Cookie
         res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV == "production",
@@ -37,10 +46,10 @@ export const register = async (req, res)=>{
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
-        return res.json({success: true, user: { _id: user._id, email: user.email, name: user.name, permission: user.permission},});
+        return res.status(201).json({success: true, user: { _id: user._id, email: user.email, name: user.name, permission: user.permission},});
     } catch (error){
         console.log(error.message);
-        res.json({success: false, message: error.message});
+        res.status(500).json({success: false, message: error.message});
     }
 
 }
@@ -54,20 +63,26 @@ export const login = async (req, res)=>{
             return res.json({success: false, message:'Email and password are required'})
         }
 
-        const user = await User.findOne({email});
-
+        // Normalize email
+        const normEmail = email.trim().toLowerCase();
+        
+        // Find user
+        const user = await User.findOne({email: normEmail});
         if(!user){
             return res.json({success: false, message:'Invalid email or password'})
         }
 
+        // Check password
         const isMatch = await bcrypt.compare(password, user.password)
 
         if(!isMatch){
             return res.json({success: false, message:'Invalid email or password'})
         }
 
+        // Issue JWT
         const token = jwt.sign({id: user._id, permission: user.permission}, process.env.JWT_SECRET, {expiresIn: "7d"});
 
+        // Set cookie
         res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV == "production",
@@ -75,10 +90,10 @@ export const login = async (req, res)=>{
             maxAge: 7 * 24 * 60 * 60 * 1000,
         })
 
-        return res.json({success: true, user: {_id: user._id, email: user.email, name: user.name, permission: user.permission}});
+        return res.status(201).json({success: true, user: {_id: user._id, email: user.email, name: user.name, permission: user.permission}});
     } catch(error){
         console.log(error.message);
-        res.json({success: false, message: error.message});
+        res.status(500).json({success: false, message: error.message});
     }
 }
 
@@ -96,13 +111,14 @@ export const isAuth = async (req, res)=>{
 
     } catch(error){
         console.log(error.message);
-        res.json({success: false, message: error.message});
+        res.status(500).json({success: false, message: error.message});
     }
 }
 
 // Logout User : /api/user/logout
 export const logout = async (req, res)=>{
     try{
+        // Clear the auth cookie
         res.clearCookie("token", {
             httpOnly: true,
             secure: process.env.NODE_ENV == "production",
@@ -111,6 +127,6 @@ export const logout = async (req, res)=>{
         return res.json({success: true, message: "Logged Out"})
     } catch(error){
         console.log(error.message);
-        res.json({success: false, message: error.message});
+        res.status(500).json({success: false, message: error.message});
     }
 }
