@@ -5,12 +5,12 @@ import { getCart, addItem, updateItemQty, removeItem, clearCart } from "../contr
 const cartRouter = express.Router();
 
 // all cart routes require login
-router.use(authUser);               
+cartRouter.use(authUser);
 
-router.get("/", getCart);
-router.post("/items", addItem);
-router.put("/items/:cartItemId", updateItemQty);
-router.delete("/items/:cartItemId", removeItem);
-router.delete("/", clearCart);
+cartRouter.get("/", getCart);
+cartRouter.post("/items", addItem);
+cartRouter.put("/items/:cartItemId", updateItemQty);
+cartRouter.delete("/items/:cartItemId", removeItem);
+cartRouter.delete("/", clearCart);
 
 export default cartRouter;
