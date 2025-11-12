@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import "./Cart.css";
 import { useState, useEffect } from 'react';
 
 const Cart = (props) => {
@@ -14,22 +14,59 @@ const Cart = (props) => {
   }, [props.cart])
 
   return (
-    <div>
-        <h1>Hi, {props.user}, here is your cart.</h1>
-        <ul>
-        {props.cart.map(item => (
-            <li key={item.price}>
-                {item.name} ${item.price}
-                <button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    props.removeFromCart(item.id)
-                }}
-                >Remove from cart</button>
-            </li>
-        ))}
-        </ul>
-        <p>Total: ${total}</p>
+    <div className="cart">
+
+      <h1>{props.user}'s cart</h1>
+
+      <div className="cart-layout">
+
+        <div className="cart-items">
+          <ul>
+          {props.cart.map(item => (
+              <li key={item.price}>
+                  {item.name} ${item.price}
+                  <button
+                  onClick={(e) => {
+                      e.stopPropagation();
+                      props.removeFromCart(item.id)
+                  }}
+                  className="pay-btn"
+                  >Remove from cart</button>
+              </li>
+          ))}
+          </ul>
+          {/* {cartItems.length === 0 && (
+            <p>Your cart is empty.</p>
+          )} */}
+        </div>
+
+        <div className="cart-summary">
+          <h3>Order summary</h3>
+
+          <div className="summary-row">
+            <span>Subtotal</span>
+            <span>${total}</span>
+          </div>
+
+          <div className="summary-row">
+            <span>Delivery Fee</span>
+            <span>$0.00</span>
+          </div>
+
+          <div className="summary-row">
+            <span>Tax</span>
+            <span>$0.00</span>
+          </div>
+
+          <div className="summary-row total">
+            <span>Total</span>
+            <span>${total}</span>
+          </div>
+
+          <button className="pay-btn">Place order</button>
+        </div>
+
+      </div>
     </div>
   );
 };

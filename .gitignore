@@ -12,6 +12,7 @@ backend/dist/
 .env.local
 .env.development
 .env.production
+backend/.env
 
 # ---- Logs ----
 npm-debug.log*

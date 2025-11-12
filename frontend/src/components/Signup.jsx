@@ -4,14 +4,20 @@ import './Login.css'
 
 const Signup = (props) => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [loading, setLoading] = useState(false);
 
     function handleSignup(e) {
-        e.preventDefault()
+        e.preventDefault();
         // handle signup
-        props.toggle()
-        props.setUser(username)
+
+        if (!name || !password)
+
+        props.toggle();
+        props.setUser(name);
         navigate('/catalog');
     }
 
@@ -21,8 +27,16 @@ const Signup = (props) => {
                 <h2>Sign Up</h2>
                 <form onSubmit={handleSignup}>
                     <label>
-                        Username:
-                        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+                        Full name:
+                        <input type="text" value={name} onChange={e => setName(e.target.value)} />
+                    </label>
+                    <label>
+                        UMBC Email:
+                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
+                    </label>
+                    <label>
+                        Phone number:
+                        <input type="text" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
                     </label>
                     <label>
                         Password:

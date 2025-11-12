@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';  
-import 'dotenv/config';             
+// import 'dotenv/config';             
 import userRouter from './routes/userRoute.js';
 import restaurantRouter from "./routes/restaurantRoute.js";
 import cartRouter from "./routes/cartRoute.js";
@@ -10,7 +13,6 @@ import profileRouter from "./routes/meRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
 // Connect to MongoDB before starting the server
 await connectDB().catch(error => {
   console.error('MongoDB connection failed:', error.message);
