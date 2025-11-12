@@ -4,7 +4,7 @@ import MenuItem from "../models/MenuItem.js";
 export const getCart = (req, res) => {
 
     // Get items in the cart and calculate subtotal
-    const items = req.user.user.cart || [];
+    const items = req.user.cart || [];
     let subtotal = 0;
     for (const it of items) {
         subtotal += (it.price || 0) * (it.qty || 0);
@@ -16,26 +16,35 @@ export const getCart = (req, res) => {
 // Adds item to cart : /api/cart/addItem
 export const addItem = async (req, res) => {
     try {
-        const { menuItemId, qty = 1, options = {} } = req.body;
-        if (!menuItemId || qty < 1) {
+        const { menuItemId, quantity = 1, options = {} } = req.body;
+        if (!menuItemId || quantity < 1) {
             return res.status(400).json({ message: "menuItemId and qty greater than or equal to 1 are required" });
         }
 
         // Load the menu item
         const mi = await MenuItem.findById(menuItemId, "name price");
         if (!mi) {
-            return res.status(400).json({ message: "Item unavailable" });
+            return res.status(400).json({ message: "Item not found" });
         }
 
-        // Push a new cart item
-        req.user.cart.items.push({
-            menuItem: mi._id,
-            name: mi.name,       
-            price: mi.price,     
-            quantity,
-            options
-        });
+        const same = (req.user.cart || []).find(
+            it => String(it.menuItem) === String(mi._id) &&
+                JSON.stringify(it.options || {}) === JSON.stringify(options || {})
+        );
 
+        if (same) {
+            same.quantity += quantity;
+        } else{
+            // Push a new cart item
+            req.user.cart.items.push({
+                menuItem: mi._id,
+                name: mi.name,       
+                price: mi.price,     
+                quantity,
+                options
+            });
+        }
+        
         // Update user info
         await req.user.save();
 
@@ -64,7 +73,7 @@ export const updateItemQty = async (req, res) => {
         }
 
 
-        const line = req.user.cart.items.id(cartItemId);
+        const line = req.user.cart.id(cartItemId);
         if (!line) {
             return res.status(404).json({ message: "Cart item not found" });
         }
@@ -74,7 +83,7 @@ export const updateItemQty = async (req, res) => {
         await req.user.save();
 
         // Recompute subtotal
-        const items = req.user.cart.items || [];
+        const items = req.user.cart || [];
         let subtotal = 0;
         for (const it of items){ 
             subtotal += (it.price || 0) * (it.qty || 0);
@@ -91,7 +100,7 @@ export const removeItem = async (req, res) => {
     try {
         const { cartItemId } = req.params;
 
-        const line = req.user.cart.items.id(cartItemId);
+        const line = req.user.cart.id(cartItemId);
         if (!line) return res.status(404).json({ message: "Cart item not found" });
 
         // Remove the line and save
@@ -99,7 +108,7 @@ export const removeItem = async (req, res) => {
         await req.user.save();       
 
         // Recompute subtotal
-        const items = req.user.cart.items || [];
+        const items = req.user.cart || [];
         let subtotal = 0;
         for (const it of items) subtotal += (it.price || 0) * (it.qty || 0);
         return res.json({ items, subtotal });
@@ -112,7 +121,7 @@ export const removeItem = async (req, res) => {
 export const clearCart = async (req, res) => {
     try {
         // Empty the embedded array and save
-        req.user.cart.items = [];    
+        req.user.cart = [];    
         await req.user.save();
         return res.status(204).end(); 
     } catch {

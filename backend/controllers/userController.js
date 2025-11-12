@@ -7,7 +7,7 @@ export const register = async (req, res)=>{
     try {
         const{name, email, password, permission, phoneNumber} = req.body;
 
-        if(!name || !email || !password){
+        if(!name || !email || !password || !permission){
             return res.json({success: false, message:'Missing Details'});
         }
 
@@ -20,7 +20,7 @@ export const register = async (req, res)=>{
         const normEmail = email.trim().toLowerCase();
 
         // Check if user exists
-        const existingUser = await User.findOne({emmail: normEmail});
+        const existingUser = await User.findOne({email: normEmail});
         if(existingUser)
             return res.json({success: false, message:'User Already Exists'});
 

@@ -5,7 +5,7 @@ import MenuItem from "../models/MenuItem.js";
 export const listRestaurants = async (req, res) => {
     try {
         // Finds all the restaurants and returns them
-        const restaurants = await Restaurant.find({}, "name imageUrl location ratingAvg description").lean();
+        const restaurants = await Restaurant.find({}, "name imageUrl location rating description").lean();
         return res.status(404).json(restaurants);
     } catch (error) {
         console.error(error.message);
@@ -42,7 +42,7 @@ export const getRestaurantMenu = async (req, res) => {
         // Finds the menu items and stores it
         const items = await MenuItem.find(
         { restaurant: restaurant._id, },"name price imageUrl calories description")
-        .sort({ NaName: 1 })
+        .sort({ name: 1 })
         .lean();
 
         // Returns restaurant json and menuitem json
