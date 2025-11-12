@@ -4,7 +4,7 @@ import MenuItem from "../models/MenuItem.js";
 export const getCart = (req, res) => {
 
     // Get items in the cart and calculate subtotal
-    const items = req.user.cart.items || [];
+    const items = req.user.user.cart || [];
     let subtotal = 0;
     for (const it of items) {
         subtotal += (it.price || 0) * (it.qty || 0);
@@ -22,17 +22,17 @@ export const addItem = async (req, res) => {
         }
 
         // Load the menu item
-        const mi = await MenuItem.findById(menuItemId, "name price isAvailable");
-        if (!mi || !mi.isAvailable) {
+        const mi = await MenuItem.findById(menuItemId, "name price");
+        if (!mi) {
             return res.status(400).json({ message: "Item unavailable" });
         }
 
         // Push a new cart item
         req.user.cart.items.push({
-            itemId: mi._id,
+            menuItem: mi._id,
             name: mi.name,       
             price: mi.price,     
-            qty,
+            quantity,
             options
         });
 
@@ -56,10 +56,10 @@ export const addItem = async (req, res) => {
 export const updateItemQty = async (req, res) => {
     try {
         const { cartItemId } = req.params;   
-        const { qty } = req.body;            
+        const { quantity } = req.body;            
 
         // Check quantity
-        if (!Number.isInteger(qty) || qty < 1) {
+        if (!Number.isInteger(quantity) || quantity < 1) {
             return res.status(400).json({ message: "qty must be an integer >= 1" });
         }
 
@@ -70,7 +70,7 @@ export const updateItemQty = async (req, res) => {
         }
 
         // Update quantity and save
-        line.qty = qty;
+        line.quantity = quantity;
         await req.user.save();
 
         // Recompute subtotal

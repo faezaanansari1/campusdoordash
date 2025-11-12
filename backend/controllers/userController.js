@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 // Register User : /api/user/register
 export const register = async (req, res)=>{
     try {
-        const{name, email, password, permission} = req.body;
+        const{name, email, password, permission, phoneNumber} = req.body;
 
         if(!name || !email || !password){
             return res.json({success: false, message:'Missing Details'});
@@ -32,7 +32,8 @@ export const register = async (req, res)=>{
             name, 
             email, 
             password:hashedPassword,
-            permission: permission && ["customer", "retriever", "admin"].includes(permission) ? permission : "customer",
+            permission: permission && ["user", "retriever", "admin"].includes(permission) ? permission : "customer",
+            phoneNumber: phoneNumber?.trim() || null,
         });
 
         // Issue JWT
