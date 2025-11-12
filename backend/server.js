@@ -6,6 +6,7 @@ import 'dotenv/config';
 import userRouter from './routes/userRoute.js';
 import restaurantRouter from "./routes/restaurantRoute.js";
 import cartRouter from "./routes/cartRoute.js";
+import profileRouter from "./routes/meRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 app.use("/api/user", userRouter)
 app.use("/api/restaurants", restaurantRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/me", profileRouter);
 
 // Starts the HTTP Server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
