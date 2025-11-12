@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import Users from "../models/Users.js";
+import User from "../models/Users.js";
 
 export const getMe = async (req, res) => {
     const me = await User.findById(req.user._id)

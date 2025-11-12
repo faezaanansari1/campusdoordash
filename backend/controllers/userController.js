@@ -8,12 +8,12 @@ export const register = async (req, res)=>{
         const{name, email, password, permission, phoneNumber} = req.body;
 
         if(!name || !email || !password || !permission){
-            return res.json({success: false, message:'Missing Details'});
+            return res.status(400).json({success: false, message:'Missing Details'});
         }
 
         // Password length must be greater than 8
         if (password.length < 8) {
-           return res.json({ success: false, message: "Password too short" });
+           return res.status(400).json({ success: false, message: "Password too short" });
         }
 
         // Normalize email
@@ -22,7 +22,7 @@ export const register = async (req, res)=>{
         // Check if user exists
         const existingUser = await User.findOne({email: normEmail});
         if(existingUser)
-            return res.json({success: false, message:'User Already Exists'});
+            return res.status(409).json({success: false, message:'User Already Exists'});
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -32,7 +32,7 @@ export const register = async (req, res)=>{
             name, 
             email, 
             password:hashedPassword,
-            permission: permission && ["user", "retriever", "admin"].includes(permission) ? permission : "customer",
+            permission: permission && ["user", "retriever", "admin"].includes(permission) ? permission : "user",
             phoneNumber: phoneNumber?.trim() || null,
         });
 

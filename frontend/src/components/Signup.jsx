@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import api from "../lib/axios";
 import './Login.css'
 
 const Signup = (props) => {
@@ -8,17 +10,38 @@ const Signup = (props) => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [permission, setPermission] = useState('user');
     const [loading, setLoading] = useState(false);
 
-    function handleSignup(e) {
+    async function handleSignup(e) {
         e.preventDefault();
-        // handle signup
 
-        if (!name || !password)
-
-        props.toggle();
-        props.setUser(name);
-        navigate('/catalog');
+        // Signup handle
+        // If field is not completed
+        if (!name || !password || !email || !phoneNumber) {
+            toast.error("All fields are required");
+            return;
+        }
+        // Else, post to db
+        setLoading(true);
+        try {
+            await api.post("/user/register", {
+                name,
+                email,
+                password,
+                permission,
+                phoneNumber
+            });
+            toast.success("Successfully signed up and logged you in!");
+            props.setUser(name);
+            props.toggle();
+            navigate('/catalog');
+        } catch (error) {
+            console.log("Error signing up user", error);
+            toast.error("Something went wrong. Try again?");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -43,7 +66,10 @@ const Signup = (props) => {
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
                     </label>
                     <div>
-                        <button type="submit">Sign Up</button>
+                        <button type="submit"
+                        disabled={loading}
+                        > {loading ? "Signing up..." : "Sign up"}
+                        </button>
                         <button type="button" onClick={props.toggle}>Close</button>
                     </div>
                 </form>

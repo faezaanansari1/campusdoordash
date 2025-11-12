@@ -5,6 +5,7 @@ import Catalog from './pages/Catalog';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Cart from './pages/Cart';
+import { Toaster } from "react-hot-toast";
 import './index.css'
 
 const App = () => {
@@ -41,7 +42,10 @@ const App = () => {
     <div className="App">
 
         <Navbar />
-
+        <Toaster 
+        position="top-right"
+        reverseOrder={false}
+        />
         <div>
           {element}
         </div>
