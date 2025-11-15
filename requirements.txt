@@ -1,0 +1,13 @@
+in terminal:
+npm install dotenv
+
+
+This locally installs dotenv in your project.
+
+make sure to also have this installed:
+npm install mongoose bcryptjs
+
+after that run the script again:
+node testDatabase.js
+
+

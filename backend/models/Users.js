@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     phoneNumber: { type: String, required: true, trim: true },
     lastLogin: { type: Date, default: null },    
     cart: { type: [cartSchema], default: [] }, //embedded cart array
+    rating: { type: Number, min: 0, max: 5, default: 5 },
 }, {timestamps: true});
 
 
