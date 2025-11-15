@@ -12,9 +12,9 @@ export const register = async (req, res)=>{
         }
 
         // Password length must be greater than 8
-        if (password.length < 8) {
-           return res.status(400).json({ success: false, message: "Password too short" });
-        }
+        // if (password.length < 8) {
+        //    return res.status(400).json({ success: false, message: "Password too short" });
+        // }
 
         // Normalize email
         const normEmail = email.trim().toLowerCase();
@@ -61,7 +61,7 @@ export const login = async (req, res)=>{
         const{email, password} = req.body;
 
         if(!email || !password){
-            return res.json({success: false, message:'Email and password are required'})
+            return res.status(400).json({success: false, message:'Email and password are required'})
         }
 
         // Normalize email
@@ -70,14 +70,14 @@ export const login = async (req, res)=>{
         // Find user
         const user = await User.findOne({email: normEmail});
         if(!user){
-            return res.json({success: false, message:'Invalid email or password'})
+            return res.status(400).json({success: false, message:'Invalid email or password'})
         }
 
         // Check password
         const isMatch = await bcrypt.compare(password, user.password)
 
         if(!isMatch){
-            return res.json({success: false, message:'Invalid email or password'})
+            return res.status(400).json({success: false, message:'Invalid email or password'})
         }
 
         // Issue JWT

@@ -1,20 +1,38 @@
 // Code courtesy of https://dev.to/afromatt6288/create-a-popup-form-for-login-and-then-style-it-37jl
-// TODO truncate Login and Signup as one component.
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import api from "../lib/axios";
 import './Login.css'
 
 const Login = (props) => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
       e.preventDefault();
       // handle login
-      props.toggle();
-      props.setUser(username)
-      navigate('/catalog');
+      // If field is not completed
+      if (!email || !password) {
+				toast.error("All fields are required");
+        return;
+    	}
+			// Else, post to db
+			try {
+					const response = await api.post("/user/login", {
+							email,
+							password
+					});
+					toast.success("Successfully logged you in!");
+					console.log(response.data.name);
+					props.setUser(response.data.name);
+					props.toggle();
+					navigate('/catalog');
+			} catch (error) {
+					console.log("Error logging in user", error);
+					toast.error("Something went wrong. Try again?");
+			}
     }
 
     return (
@@ -23,8 +41,8 @@ const Login = (props) => {
                 <h2>Login</h2>
                 <form onSubmit={handleLogin}>
                     <label>
-                        Username:
-                        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+                        Email:
+                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
                     </label>
                     <label>
                         Password:
