@@ -86,7 +86,7 @@ const Catalog = () => {
       ) : (
         searchedVendors
           .filter(member =>
-            selectedLocation === "" || member.loc === selectedLocation
+            selectedLocation === "" || member.location === selectedLocation
           )
           .map((member, index) => (
             <Card
