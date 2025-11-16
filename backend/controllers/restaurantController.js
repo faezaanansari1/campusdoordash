@@ -6,7 +6,7 @@ export const listRestaurants = async (req, res) => {
     try {
         // Finds all the restaurants and returns them
         const restaurants = await Restaurant.find({}, "name imageUrl location rating description").lean();
-        return res.status(404).json(restaurants);
+        return res.status(200).json(restaurants);
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({ success: false, message: error.message });

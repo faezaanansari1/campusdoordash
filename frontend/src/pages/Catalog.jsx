@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './Catalog.css'
+import shackimg from '../assets/halalshack.png'
+import api from "../lib/axios";
 import Card from '../components/Card'
 
-import {catalogData} from '../data'
+// import {catalogData} from '../data'
 
 const Catalog = () => {
 
@@ -19,8 +21,16 @@ const Catalog = () => {
 
   // Gets all vendors (catalog data) from db
   // TODO: Read vendors from db
-  const getVendors = () => {
-    setMainVendors(catalogData);
+  async function getVendors() {
+    // let data;
+    try {
+        const response = await api.get("/restaurants/listRestaurants");
+        console.log("Response: " + JSON.stringify(response));
+        setMainVendors(response.data);
+        setSearchedVendors(response.data);
+    } catch (error) {
+        console.log("Error getting restaurants", error);
+    }
   };
 
   // When page initially loads, get all vendors (catalog data)
@@ -68,23 +78,28 @@ const Catalog = () => {
         </div>
       </div>
 
-      <div className="container">
-        {        
-          searchedVendors
-            .filter(member =>
-              selectedLocation === "" || member.loc === selectedLocation
-            )
-            .map((member, index) => (
-            <Card key={index}
-                id={member.id}
-                name={member.name}
-                img={member.img}
-                loc={member.loc}
-                desc={member.desc}
+    <div className="container">
+      {!searchedVendors ? (
+        <p>Loading vendors...</p>
+      ) : searchedVendors.length === 0 ? (
+        <p>No vendors found.</p>
+      ) : (
+        searchedVendors
+          .filter(member =>
+            selectedLocation === "" || member.loc === selectedLocation
+          )
+          .map((member, index) => (
+            <Card
+              key={index}
+              id={member.id}
+              name={member.name}
+              img={shackimg}
+              loc={member.location}
+              desc={member.description}
             />
           ))
-        }      
-      </div>
+      )}
+    </div>
   </div>
   );
 };

@@ -10,7 +10,7 @@ const restaurantSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 //create the model for the restaurants collection
-const Restaurant =   mongoose.models.Restaurant || mongoose.model("Restaurant", restaurantSchema);
+const Restaurant = mongoose.models.Restaurant || mongoose.model("Restaurant", restaurantSchema);
 
 // Export the model
 export default Restaurant;

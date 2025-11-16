@@ -3,7 +3,7 @@ import {listRestaurants, getRestaurantById, getRestaurantMenu} from "../controll
 
 const restaurantRouter = express.Router();
 
-restaurantRouter.get("/", listRestaurants);
+restaurantRouter.get("/listRestaurants", listRestaurants);
 restaurantRouter.get("/:restaurantId", getRestaurantById);
 restaurantRouter.get("/:restaurantId/menu", getRestaurantMenu);
 
