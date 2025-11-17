@@ -7,7 +7,7 @@ export const getMe = async (req, res) => {
     return res.json(me);
 };
 
-// PATCH /api/me  
+// Updates name and phone number /api/me  
 export const updateMe = async (req, res) => {
     const allowed = ["name", "phoneNumber"]; 
     const update = {};
@@ -47,7 +47,7 @@ export const updateMe = async (req, res) => {
     }
 };
 
-// PATCH /api/me/password  (requires current password)
+// Changes password: /api/me/password  (requires current password)
 export const changeMyPassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body || {};
     if (!currentPassword || !newPassword) {
