@@ -46,7 +46,7 @@ export const getRestaurantMenu = async (req, res) => {
         .lean();
 
         // Returns restaurant json and menuitem json
-        return res.json({ restaurant, items });
+        return res.status(200).json({ restaurant, items });
     } catch (error) {
         console.error("getRestaurantMenu error:", error);
         return res.status(500).json({ success: false, message: error.message });
