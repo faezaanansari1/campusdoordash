@@ -4,7 +4,6 @@ import './Catalog.css'
 import shackimg from '../assets/halalshack.png'
 import api from "../lib/axios";
 import Card from '../components/Card'
-
 // import {catalogData} from '../data'
 
 const Catalog = () => {
@@ -16,16 +15,14 @@ const Catalog = () => {
 
   const handleSelect = (location) => {
     setSelectedLocation(location);
-    console.log("Selected:", location);
+    // console.log("Selected:", location);
   };
 
   // Gets all vendors (catalog data) from db
-  // TODO: Read vendors from db
   async function getVendors() {
-    // let data;
     try {
         const response = await api.get("/restaurants/listRestaurants");
-        console.log("Response: " + JSON.stringify(response));
+        // console.log("Response: " + JSON.stringify(response));
         setMainVendors(response.data);
         setSearchedVendors(response.data);
     } catch (error) {
@@ -91,7 +88,7 @@ const Catalog = () => {
           .map((member, index) => (
             <Card
               key={index}
-              id={member.id}
+              id={member._id}
               name={member.name}
               img={shackimg}
               loc={member.location}
