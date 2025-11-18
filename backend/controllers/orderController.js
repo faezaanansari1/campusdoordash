@@ -1,4 +1,4 @@
-import Order from "../models/Order.js";
+import Order from "../models/Orders.js";
 import MenuItem from "../models/MenuItem.js";
 import User from "../models/Users.js";
 

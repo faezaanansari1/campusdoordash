@@ -13,7 +13,7 @@ import profileRouter from "./routes/meRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 // Connect to MongoDB before starting the server
 await connectDB().catch(error => {
   console.error('MongoDB connection failed:', error.message);
