@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 import './index.css'
 
 const App = () => {
-  const [loggedInUser, setLoggedInUser] = useState("User");
+  const [loggedInUser, setLoggedInUser] = useState("guest");
   const [cart, setCart] = useState([]);
 
   const removeFromCart = (idToRemove) => {
@@ -41,7 +41,7 @@ const App = () => {
 
     <div className="App">
 
-        <Navbar />
+        <Navbar user={loggedInUser} />
         <Toaster 
         position="top-right"
         reverseOrder={false}

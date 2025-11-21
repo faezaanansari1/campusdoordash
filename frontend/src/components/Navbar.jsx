@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom';
 import './Navbar.css'
 // import umbclogo from '../assets/umbclogo.png'
 
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <div className="navbar">
       <nav className="nav-black">
         <div className="image-logo">
             {/* <img src={umbclogo} alt="" className='logo' /> */}
             <Link to="/" className="site-title">RetrieverEats</Link>
+        </div>
+        <div>
+          <p>Hello, {props.user}</p>
         </div>
         <ul>
           <li className="active">
