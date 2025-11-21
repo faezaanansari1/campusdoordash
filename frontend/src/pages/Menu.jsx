@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import MenuItem from '../components/MenuItem'
 import api from "../lib/axios";
-// import {menuData} from '../data'
+import toast from "react-hot-toast";
 
 const Menu = (props) => {
     const location = useLocation();
@@ -25,9 +25,23 @@ const Menu = (props) => {
         getMenuItems();
     }, [])
 
-    const addToCart = (itemToAdd) => {
-        props.setCart([...props.cart, itemToAdd]);
+    async function addToCart(itemID) {
+      try {
+          await api.post("/cart/addItem", {
+                menuItemId: itemID,
+                quantity: 1
+            });
+          // console.log("Response after adding to cart");
+          // console.log(response);
+          toast.success("Added item to cart");
+      } catch (error) {
+          console.log("Error adding to cart", error);
+          toast.error("Something went wrong. Try again?");
+      }
     }
+    // const addToCart = (itemToAdd) => {
+    //     props.setCart([...props.cart, itemToAdd]);
+    // }
 
     return (
     <div>
@@ -38,6 +52,7 @@ const Menu = (props) => {
           user={props.user}
           name={item.name}
           price={item.price}
+          id={item._id}
         //   image_url={item.image_url}
           calories={item.calories}
           description={item.description}

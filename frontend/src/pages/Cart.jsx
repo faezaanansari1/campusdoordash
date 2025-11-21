@@ -1,17 +1,31 @@
 import "./Cart.css";
 import { useState, useEffect } from 'react';
+import api from "../lib/axios";
+import toast from "react-hot-toast";
 
 const Cart = (props) => {
-  const sumPrices = (items) => {
-    return items.reduce((total, item) => {
-      return total + parseFloat(item.price);
-    }, 0);
+  // const sumPrices = (items) => {
+  //   return items.reduce((total, item) => {
+  //     return total + parseFloat(item.price);
+  //   }, 0);
+  // };
+  // const [total, setTotal] = useState(0);
+  const [cart, setCart] = useState([]);
+
+  async function getCart() {
+    try {
+        const response = await api.get(`/restaurants/getCart`);
+        console.log(response);
+        // setCart(response.data.items);
+    } catch (error) {
+        console.log("Error getting restaurants", error);
+    }
   };
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    setTotal(sumPrices(props.cart).toFixed(2));
-  }, [props.cart])
+    // Get cart items
+    getCart();
+  }, [])
 
   return (
     <div className="cart">
@@ -21,7 +35,7 @@ const Cart = (props) => {
       <div className="cart-layout">
 
         <div className="cart-items">
-          <ul>
+          {/* <ul>
           {props.cart.map(item => (
               <li key={item.price}>
                   {item.name} ${item.price}
@@ -34,14 +48,14 @@ const Cart = (props) => {
                   >Remove from cart</button>
               </li>
           ))}
-          </ul>
+          </ul> */}
           {/* {cartItems.length === 0 && (
             <p>Your cart is empty.</p>
           )} */}
         </div>
 
         <div className="cart-summary">
-          <h3>Order summary</h3>
+          {/* <h3>Order summary</h3>
 
           <div className="summary-row">
             <span>Subtotal</span>
@@ -61,7 +75,7 @@ const Cart = (props) => {
           <div className="summary-row total">
             <span>Total</span>
             <span>${total}</span>
-          </div>
+          </div> */}
 
           <button className="pay-btn">Place order</button>
         </div>

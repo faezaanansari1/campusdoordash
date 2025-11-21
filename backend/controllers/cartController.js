@@ -36,7 +36,7 @@ export const addItem = async (req, res) => {
             same.quantity += quantity;
         } else{
             // Push a new cart item
-            req.user.cart.items.push({
+            req.user.cart.push({
                 menuItem: mi._id,
                 name: mi.name,       
                 price: mi.price,     

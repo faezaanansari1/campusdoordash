@@ -7,8 +7,8 @@ const cartRouter = express.Router();
 // all cart routes require login
 cartRouter.use(authUser);
 
-cartRouter.get("/", getCart);
-cartRouter.post("/items", addItem);
+cartRouter.get("/getCart", getCart);
+cartRouter.post("/addItem", addItem);
 cartRouter.put("/items/:cartItemId", updateItemQty);
 cartRouter.delete("/items/:cartItemId", removeItem);
 cartRouter.delete("/", clearCart);

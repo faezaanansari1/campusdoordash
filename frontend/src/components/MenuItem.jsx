@@ -2,6 +2,7 @@ import './MenuItem.css'
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
+
 const MenuItem = (props) => {
   const navigate = useNavigate();
   
@@ -17,9 +18,7 @@ const MenuItem = (props) => {
             if (props.user === "User") {
                 navigate('/');
             } else {
-                const randNum = Math.random();
-                props.addToCart({"name": props.name, "price": props.price, "id": randNum});
-                console.log("added to cart");
+                props.addToCart(props.id);
             }
         }}
         className="cart-btn"

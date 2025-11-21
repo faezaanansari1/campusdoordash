@@ -25,8 +25,8 @@ const Login = (props) => {
 							password
 					});
 					toast.success("Successfully logged you in!");
-					console.log(response.data.name);
-					props.setUser(response.data.name);
+					console.log(response.data.user.name);
+					props.setUser(response.data.user.name);
 					props.toggle();
 					navigate('/catalog');
 			} catch (error) {

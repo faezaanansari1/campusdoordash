@@ -33,7 +33,7 @@ const App = () => {
     },
     {
       path:"/cart/",
-      element: <Cart cart={cart} user={loggedInUser} removeFromCart={removeFromCart} />
+      element: <Cart user={loggedInUser} />
     }
   ]);
 
