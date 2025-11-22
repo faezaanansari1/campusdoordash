@@ -10,7 +10,7 @@ const orderItemSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
     customer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     restaurant: { type: mongoose.Schema.Types.ObjectId, ref: "Restaurant", required: true },
-    dasher: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    retriever: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
     //we can assign this later when someone picks up the delivery.
 
     items: { type: [orderItemSchema], required: true },
@@ -19,6 +19,7 @@ const orderSchema = new mongoose.Schema({
     tax: { type: Number, required: true, min: 0 },
     deliveryFee: { type: Number, required: true, min: 0 },
     total: { type: Number, required: true, min: 0 },
+    dropOffLocation: { type: String, required: true },
 
     status: {
         type: String,
