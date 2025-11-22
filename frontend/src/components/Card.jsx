@@ -9,7 +9,9 @@ const Card = (props) => {
         <img src={props.img} alt="" />
         <h2>{props.name}</h2>
         <p>{props.desc}</p>
-        <i>Location: {props.loc}</i>
+        <div className='card-footer'>
+          <i>Location: {props.loc}</i>
+        </div>
       </Link>
     </div>
   );

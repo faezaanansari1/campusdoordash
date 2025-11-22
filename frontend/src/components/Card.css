@@ -47,10 +47,19 @@
 
 .card p {
   font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
+  font-size: 1.3rem;
   line-height: 1.4;
-  margin: 10px 20px 0 20px;
+  margin: 10px 20px 10px 40px;
   text-align: center;
+}
+
+.card .card-footer {
+  margin-top: auto;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom:10px;
+  font-size: 1.3rem;
+  /* background-color: #FFD700; */
 }
 
 .card button {
