@@ -61,18 +61,17 @@ export const addItem = async (req, res) => {
     }
 };
 
-// Update Cart Item's quantity: /api/cart/updateItemQty
+// Update Cart Item's quantity: /api/cart/updateItemQty/:cartItemId
 export const updateItemQty = async (req, res) => {
     try {
         const { cartItemId } = req.params;   
         const { quantity } = req.body;            
-
         // Check quantity
         if (!Number.isInteger(quantity) || quantity < 1) {
             return res.status(400).json({ message: "qty must be an integer >= 1" });
         }
-
-
+        console.log(cartItemId);
+        console.log(req.user.cart);
         const line = req.user.cart.id(cartItemId);
         if (!line) {
             return res.status(404).json({ message: "Cart item not found" });
@@ -95,7 +94,7 @@ export const updateItemQty = async (req, res) => {
     }
 };
 
-// Remove item frm Cart : /api/cart/removeItem
+// Remove item frm Cart : /api/cart/removeItem/:cartItemId
 export const removeItem = async (req, res) => {
     try {
         const { cartItemId } = req.params;
