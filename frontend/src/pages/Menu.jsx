@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
+import './Menu.css'
 import MenuItem from '../components/MenuItem'
 import api from "../lib/axios";
 import toast from "react-hot-toast";
+import shackimg from '../assets/halalshack.png'
 
 const Menu = (props) => {
     const location = useLocation();
@@ -44,13 +46,14 @@ const Menu = (props) => {
     // }
 
     return (
-    <div>
+    <div className='menu'>
       <h1>{stateData.name} Menu</h1>
       {mainMenuItems.map((item, index) => (
         <MenuItem
           key={index}
           user={props.user}
           name={item.name}
+          img={shackimg}
           price={item.price}
           id={item._id}
         //   image_url={item.image_url}
