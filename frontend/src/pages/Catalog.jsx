@@ -15,14 +15,12 @@ const Catalog = () => {
 
   const handleSelect = (location) => {
     setSelectedLocation(location);
-    // console.log("Selected:", location);
   };
 
   // Gets all vendors (catalog data) from db
   async function getVendors() {
     try {
         const response = await api.get("/restaurants/listRestaurants");
-        // console.log("Response: " + JSON.stringify(response));
         setMainVendors(response.data);
         setSearchedVendors(response.data);
     } catch (error) {
@@ -38,7 +36,7 @@ const Catalog = () => {
   // TODO: Move search functionality to parent as search can occur on multiple pages
   // Recalculate searchedPosts when searchTerm changes, which occurs when user types something in search box
   useEffect(() => {
-    console.log("Recalculating searchedPosts");
+    console.log("Recalculating searchedVendors");
     // If no search term, searchedVendors=mainVendors.
     if (!searchTerm) {
       setSearchedVendors(mainVendors);

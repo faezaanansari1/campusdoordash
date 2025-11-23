@@ -14,7 +14,7 @@ const Cart = (props) => {
 
   async function getCart() {
     try {
-        const response = await api.get(`/restaurants/getCart`);
+        const response = await api.get(`/cart/getCart`);
         console.log(response);
         // setCart(response.data.items);
     } catch (error) {

@@ -10,7 +10,9 @@ const Menu = (props) => {
     const location = useLocation();
     const stateData = location.state;
     const [mainMenuItems, setMainMenuItems] = useState([]);
-    // console.log("Restaurant id: " + stateData.restaurantId);
+    const [searchedItems, setSearchedItems] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+
     // Gets all menu items (menu data) from db
     async function getMenuItems() {
       try {
@@ -27,6 +29,22 @@ const Menu = (props) => {
         getMenuItems();
     }, [])
 
+    // Recalculate searchedItems when searchTerm changes, which occurs when user types something in search box
+    useEffect(() => {
+      console.log("Recalculating searchedItems");
+      // If no search term, searchedItems=mainMenuItems.
+      if (!searchTerm) {
+        setSearchedItems(mainMenuItems);
+      // If search term, then searchedVendors is set to all vendors matching the search
+      } else {
+        const results = mainMenuItems.filter((item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setSearchedItems(results);
+      }
+    }, [searchTerm, mainMenuItems]);
+
+
     async function addToCart(itemID) {
       try {
           await api.post("/cart/addItem", {
@@ -41,14 +59,28 @@ const Menu = (props) => {
           toast.error("Something went wrong. Try again?");
       }
     }
-    // const addToCart = (itemToAdd) => {
-    //     props.setCart([...props.cart, itemToAdd]);
-    // }
 
     return (
     <div className='menu'>
       <h1>{stateData.name} Menu</h1>
-      {mainMenuItems.map((item, index) => (
+
+      <div className='filters'>
+        <div className="search-box">
+          <input
+            type="text"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search for an item"
+          />
+        </div>
+      </div>
+
+      {!searchedItems ? (
+        <p>Loading menu items...</p>
+      ) : searchedItems.length === 0 ? (
+        <p>No menu items found.</p>
+      ) : (
+      searchedItems
+      .map((item, index) => (
         <MenuItem
           key={index}
           user={props.user}
@@ -61,7 +93,7 @@ const Menu = (props) => {
           description={item.description}
           addToCart={addToCart}
         />
-      ))}
+      )))}
     </div>
   );
 };
