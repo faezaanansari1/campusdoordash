@@ -6,8 +6,8 @@ const cartSchema = new mongoose.Schema({
     name: { type: String, required: true },
     price: { type: Number, required: true, min: 0 },
     quantity: { type: Number, required: true, default: 1, min: 1 },
-    options: { type: mongoose.Schema.Types.Mixed, default: {} }
-}, { _id: false });
+    options: { type: mongoose.Schema.Types.Mixed, default: {} },
+});
 
 //Define User schema
 const userSchema = new mongoose.Schema({
