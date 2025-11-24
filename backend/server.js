@@ -11,6 +11,7 @@ import restaurantRouter from "./routes/restaurantRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import profileRouter from "./routes/meRoute.js";
 import orderRouter from "./routes/orderRoute.js";
+import retrieverRouter from "./routes/retrieverRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 5050;
@@ -42,6 +43,7 @@ app.use("/api/restaurants", restaurantRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/me", profileRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/retriever", retrieverRouter);
 
 // Starts the HTTP Server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

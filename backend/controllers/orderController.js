@@ -206,3 +206,73 @@ export const updateOrderStatus = async (req, res) => {
 };
 
 
+// Retrievers controller
+
+
+export const listAvailableOrders = async (_req, res) => {
+  try {
+    const orders = await Order.find({
+      status: { $in: ["confirmed", "preparing"] },
+      retriever: null
+    })
+      .sort({ createdAt: 1 })
+      .limit(50)
+      .populate("restaurant", "name");
+
+    return res.json(orders);
+  } catch (err) {
+    console.error("listAvailableOrders error:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const claimOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findOneAndUpdate(
+      {
+        _id: id,
+        retriever: null, 
+        status: { $in: ["confirmed", "preparing"] }
+      },
+      {
+        retriever: req.user._id
+        // status: "preparing"
+      },
+      { 
+        new: true 
+      }
+    );
+
+    if (!order) {
+      return res.status(409).json({ message: "Already claimed or not available" });
+    }
+
+    return res.json(order);
+  } catch (error) {
+    console.error("claimOrder error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const myWork = async (req, res) => {
+  try {
+    const active = await Order.find({
+      retriever: req.user._id,
+      status: { $in: ["confirmed", "preparing", "picked_up", "delivering"] }
+    }).sort({ createdAt: -1 });
+
+    const history = await Order.find({
+      retriever: req.user._id,
+      status: "delivered"
+    })
+      .sort({ updatedAt: -1 })
+      .limit(50);
+
+    return res.json({ active, history });
+  } catch (err) {
+    console.error("myWork error:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
