@@ -1,6 +1,6 @@
 import express from "express";
 import authUser from "../middlewares/authUser.js";
-import { getMe, updateMe, changeMyPassword } from "../controllers/profileController.js";
+import {getMe, updateMe, changeMyPassword} from "../controllers/profileController.js";
 
 const profileRouter = express.Router();
 

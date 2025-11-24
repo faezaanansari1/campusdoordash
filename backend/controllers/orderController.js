@@ -1,6 +1,5 @@
 import Order from "../models/Orders.js";
 import MenuItem from "../models/MenuItem.js";
-import User from "../models/Users.js";
 
 const TAX_RATE = 0.06;
 const FEE_MIN  = 0.99;
@@ -94,7 +93,7 @@ export const createOrderFromCart = async (req, res) => {
     const order = await Order.create({
       customer: req.user._id,
       restaurant: firstRestaurantId,
-      retriever: null,          // will be assigned later
+      retriever: null,          
       items,
       subtotal,
       tax,
@@ -189,12 +188,6 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    /*
-    if (req.user.role === "retriever" && status === "cancelled") {
-      return res.status(403).json({ message: "Not allowed to cancel order" });
-    }
-    */
-
     order.status = status;
     await order.save();
 
@@ -206,11 +199,16 @@ export const updateOrderStatus = async (req, res) => {
 };
 
 
-// Retrievers controller
+/* 
 
+Retriever's controllers 
 
+*/
+
+// List all available orders : /orders/available 
 export const listAvailableOrders = async (_req, res) => {
   try {
+    // Find an order that is currently available to pick up
     const orders = await Order.find({
       status: { $in: ["confirmed", "preparing"] },
       retriever: null
@@ -226,9 +224,12 @@ export const listAvailableOrders = async (_req, res) => {
   }
 };
 
+// Claims the order and attaches the retriever to the order : /orders/:id/claim
 export const claimOrder = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Finds and updates the retriever field and updates the db
     const order = await Order.findOneAndUpdate(
       {
         _id: id,
@@ -244,6 +245,7 @@ export const claimOrder = async (req, res) => {
       }
     );
 
+    // If that order is found return request conflict
     if (!order) {
       return res.status(409).json({ message: "Already claimed or not available" });
     }
@@ -255,13 +257,16 @@ export const claimOrder = async (req, res) => {
   }
 };
 
+// Display workers order history : /my-work
 export const myWork = async (req, res) => {
   try {
+    // Find order that is ongoing
     const active = await Order.find({
       retriever: req.user._id,
       status: { $in: ["confirmed", "preparing", "picked_up", "delivering"] }
     }).sort({ createdAt: -1 });
 
+    // Find previouse orders by the current retriever
     const history = await Order.find({
       retriever: req.user._id,
       status: "delivered"
