@@ -20,6 +20,7 @@ const orderSchema = new mongoose.Schema({
     deliveryFee: { type: Number, required: true, min: 0 },
     total: { type: Number, required: true, min: 0 },
     dropOffLocation: { type: String, required: true },
+    dropOffDetails: { type: String, default: "", trim: true }, //any special instructions like extra sauce or stuff like that
 
     status: {
         type: String,
@@ -27,7 +28,7 @@ const orderSchema = new mongoose.Schema({
             "pending",  //user placed order and is waiting for the restaurant
             "confirmed",    //restaurant accepted the order
             "preparing",    //restaurant is preparing the order
-            "picked_up",    //dasher picked up the order
+            "picked_up",    //retriever picked up the order
             "delivering",
             "delivered",
             "cancelled"
