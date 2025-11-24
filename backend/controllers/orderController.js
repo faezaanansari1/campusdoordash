@@ -94,7 +94,7 @@ export const createOrderFromCart = async (req, res) => {
     const order = await Order.create({
       customer: req.user._id,
       restaurant: firstRestaurantId,
-      dasher: null,          // will be assigned later
+      retriever: null,          // will be assigned later
       items,
       subtotal,
       tax,
@@ -130,7 +130,7 @@ export const getMyCurrentOrder = async (req, res) => {
     })
       .sort({ createdAt: -1 })
       .populate("restaurant", "name")
-      .populate("dasher", "name");
+      .populate("retriever", "name");
 
     return res.json(order || null);
   } catch (error) {
@@ -146,7 +146,7 @@ export const getOrderStatus = async (req, res) => {
     const order = await Order.findOne({
       _id: id,
       customer: req.user._id
-    }).select("status updatedAt createdAt dasher");
+    }).select("status updatedAt createdAt retriever");
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });

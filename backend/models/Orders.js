@@ -19,9 +19,11 @@ const orderSchema = new mongoose.Schema({
     tax: { type: Number, required: true, min: 0 },
     deliveryFee: { type: Number, required: true, min: 0 },
     total: { type: Number, required: true, min: 0 },
-    dropOffLocation: { type: String, required: true },
-    dropOffDetails: { type: String, default: "", trim: true }, //any special instructions like extra sauce or stuff like that
-
+    dropoff: {
+        building: { type: String, required: true, trim: true },
+        details:  { type: String, default: "", trim: true },
+    },
+    
     status: {
         type: String,
         enum: [
