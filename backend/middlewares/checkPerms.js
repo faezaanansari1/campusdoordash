@@ -14,3 +14,5 @@ export const requirePerm = (perm) => {
     next(); 
   };
 };
+
+export default requirePerm;

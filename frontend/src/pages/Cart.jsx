@@ -118,7 +118,13 @@ const Cart = (props) => {
             <span>${total}</span>
           </div>
 
-          <button className="pay-btn">Place order</button>
+          <button
+          className="pay-btn"
+          onClick={(e) => {
+              e.stopPropagation();
+              
+          }}
+          >Place order</button>
         </div>
 
       </div>

@@ -91,7 +91,7 @@ export const login = async (req, res)=>{
             maxAge: 7 * 24 * 60 * 60 * 1000,
         })
 
-        return res.status(201).json({success: true, user: {_id: user._id, email: user.email, name: user.name, permission: user.permission}});
+        return res.status(200).json({success: true, user: {_id: user._id, email: user.email, name: user.name, permission: user.permission}});
     } catch(error){
         console.log(error.message);
         res.status(500).json({success: false, message: error.message});

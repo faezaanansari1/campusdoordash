@@ -18,8 +18,8 @@ const Navbar = (props) => {
             <Link to="/about">About </Link>
             <Link to="/catalog">Catalog </Link>
             <Link to="/cart">Cart </Link>
-            <Link to="/contact">Profile </Link>
-            <Link to="/contact">Orders </Link>
+            <Link to="/profile">Profile </Link>
+            <Link to="/orders">Orders </Link>
             <Link to="/contact">Contact </Link>
           </li>
         </ul>

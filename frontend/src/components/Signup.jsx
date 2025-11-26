@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import api from "../lib/axios";
 import './Login.css'
 
 const Signup = (props) => {
@@ -11,7 +10,6 @@ const Signup = (props) => {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [permission, setPermission] = useState('user');
-    const [loading, setLoading] = useState(false);
 
     async function handleSignup(e) {
         e.preventDefault();
@@ -22,25 +20,14 @@ const Signup = (props) => {
             toast.error("All fields are required");
             return;
         }
-        // Else, post to db
-        setLoading(true);
-        try {
-            await api.post("/user/register", {
-                name,
-                email,
-                password,
-                permission,
-                phoneNumber
-            });
+        const result = await props.signUpUser(name, email, password, permission, phoneNumber);
+        if (result.success) {
             toast.success("Successfully signed up and logged you in!");
-            props.setUser(name);
             props.toggle();
             navigate('/catalog');
-        } catch (error) {
-            console.log("Error signing up user", error);
+        } else {
+            console.log("Error signing up user ", result.message);
             toast.error("Something went wrong. Try again?");
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -67,8 +54,7 @@ const Signup = (props) => {
                     </label>
                     <div>
                         <button type="submit"
-                        disabled={loading}
-                        > {loading ? "Signing up..." : "Sign up"}
+                        > Sign up
                         </button>
                         <button type="button" onClick={props.toggle}>Close</button>
                     </div>

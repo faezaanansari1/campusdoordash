@@ -2,13 +2,13 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import api from "../lib/axios";
 import './Login.css'
 
 const Login = (props) => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+		// const isAtHome = location.pathname === '/';
 
     async function handleLogin(e) {
       e.preventDefault();
@@ -18,22 +18,21 @@ const Login = (props) => {
 				toast.error("All fields are required");
         return;
     	}
-			// Else, post to db
-			try {
-					const response = await api.post("/user/login", {
-							email,
-							password
-					});
-					toast.success("Successfully logged you in!");
-					console.log(response.data.user.name);
-					props.setUser(response.data.user.name);
-					props.toggle();
-					navigate('/catalog');
-			} catch (error) {
-					console.log("Error logging in user", error);
-					toast.error("Something went wrong. Try again?");
-			}
+        const result = await props.logInUser(email, password);
+        if (!result.success) {
+            console.log(result.message);
+						toast.error("Something went wrong. Try again?");
+        } else {
+						toast.success("Successfully logged you in!");
+						props.toggle();
+						navigate('/catalog');
+        }
     }
+
+		// function goHome() {
+		// 	props.toggle();
+		// 	navigate('/');
+		// }
 
     return (
         <div className="popup">
@@ -51,7 +50,12 @@ const Login = (props) => {
                     <div>
                         <button type="submit">Login</button>
                         <button type="button" onClick={props.toggle}>Close</button>
-                    </div>
+												{/* {!isAtHome && (
+													<button type="go-home" onClick={goHome}>
+														Go home
+													</button>
+												)} */}
+										</div>
                 </form>
             </div>
         </div>

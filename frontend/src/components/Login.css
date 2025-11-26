@@ -73,6 +73,15 @@ background-color: #f44336;
 background-color: #da190b;
 }
 
+.popup-inner button[type="go-home"] {
+margin-top: 20px;
+background-color: #1444f4;
+}
+
+.popup-inner button[type="go-home"]:hover {
+background-color: #0b46da;
+}
+
 .popup-inner button[type="submit"]:disabled {
 background-color: #bfbfbf;
 color: #ffffff;

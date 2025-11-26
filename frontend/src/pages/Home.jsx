@@ -31,9 +31,9 @@ const Home = (props) => {
               <button className="home-page-btns">View Catalog</button>
             </Link>
             <button className="home-page-btns" onClick={toggleLoginPopup}>Log in</button>
-            {loginPopup ? <Login toggle={toggleLoginPopup} setUser={props.setUser} /> : null}
+            {loginPopup ? <Login toggle={toggleLoginPopup} logInUser={props.logInUser} /> : null}
             <button className="home-page-btns" onClick={toggleSignupPopup}>Sign up</button>
-            {signupPopup ? <Signup toggle={toggleSignupPopup} setUser={props.setUser} /> : null}
+            {signupPopup ? <Signup toggle={toggleSignupPopup} signUpUser={props.signUpUser} /> : null}
         </div>
     </div>
   );
