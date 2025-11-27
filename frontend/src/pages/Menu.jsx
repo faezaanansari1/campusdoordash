@@ -2,65 +2,44 @@ import { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import './Menu.css'
 import MenuItem from '../components/MenuItem'
-import api from "../lib/axios";
-import toast from "react-hot-toast";
 import shackimg from '../assets/halalshack.png'
 
 const Menu = (props) => {
-    const location = useLocation();
-    const stateData = location.state;
-    const [mainMenuItems, setMainMenuItems] = useState([]);
-    const [searchedItems, setSearchedItems] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation();
+  const stateData = location.state;
+  const [mainMenuItems, setMainMenuItems] = useState([]);
+  const [searchedItems, setSearchedItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-    // Gets all menu items (menu data) from db
-    async function getMenuItems() {
-      try {
-          const response = await api.get(`/restaurants/${stateData.restaurantId}/menu`);
-          // console.log(response.data.items);
-          setMainMenuItems(response.data.items);
-      } catch (error) {
-          console.log("Error getting restaurants", error);
-      }
-    };
-
-    // When page initially loads, get all menu items (menu data)
-    useEffect(() => {
-        getMenuItems();
-    }, [])
-
-    // Recalculate searchedItems when searchTerm changes, which occurs when user types something in search box
-    useEffect(() => {
-      console.log("Recalculating searchedItems");
-      // If no search term, searchedItems=mainMenuItems.
-      if (!searchTerm) {
-        setSearchedItems(mainMenuItems);
-      // If search term, then searchedVendors is set to all vendors matching the search
+  useEffect(() => {
+    async function fetchMenu() {
+      const result = await props.getMenuItems(stateData.restaurantId);
+      if (result.success) {
+        setMainMenuItems(result.data);
       } else {
-        const results = mainMenuItems.filter((item) =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setSearchedItems(results);
-      }
-    }, [searchTerm, mainMenuItems]);
-
-
-    async function addToCart(itemID) {
-      try {
-          await api.post("/cart/addItem", {
-                menuItemId: itemID,
-                quantity: 1
-            });
-          // console.log("Response after adding to cart");
-          // console.log(response);
-          toast.success("Added item to cart");
-      } catch (error) {
-          console.log("Error adding to cart", error);
-          toast.error("Something went wrong. Try again?");
+        console.log(result.message);
       }
     }
 
-    return (
+    fetchMenu();
+  }, [stateData.restaurantId, props]);
+
+  // Recalculate searchedItems when searchTerm changes, which occurs when user types something in search box
+  useEffect(() => {
+    console.log("Recalculating searchedItems");
+    // If no search term, searchedItems=mainMenuItems.
+    if (!searchTerm) {
+      setSearchedItems(mainMenuItems);
+    // If search term, then searchedVendors is set to all vendors matching the search
+    } else {
+      const results = mainMenuItems.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchedItems(results);
+    }
+  }, [searchTerm, mainMenuItems]);
+
+  return (
     <div className='menu'>
       <h1>{stateData.name} Menu</h1>
 
@@ -91,7 +70,9 @@ const Menu = (props) => {
         //   image_url={item.image_url}
           calories={item.calories}
           description={item.description}
-          addToCart={addToCart}
+          addToCart={props.addToCart}
+          logInUser={props.logInUser} 
+          signUpUser={props.signUpUser}
         />
       )))}
     </div>

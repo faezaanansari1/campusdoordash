@@ -2,12 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './Catalog.css'
 import shackimg from '../assets/halalshack.png'
-import api from "../lib/axios";
 import Card from '../components/Card'
 // import {catalogData} from '../data'
 
-const Catalog = () => {
-
+const Catalog = (props) => {
   const [mainVendors, setMainVendors] = useState([]);
   const [searchedVendors, setSearchedVendors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,21 +15,20 @@ const Catalog = () => {
     setSelectedLocation(location);
   };
 
-  // Gets all vendors (catalog data) from db
-  async function getVendors() {
-    try {
-        const response = await api.get("/restaurants/listRestaurants");
-        setMainVendors(response.data);
-        setSearchedVendors(response.data);
-    } catch (error) {
-        console.log("Error getting restaurants", error);
-    }
-  };
-
   // When page initially loads, get all vendors (catalog data)
   useEffect(() => {
-      getVendors();
-  }, [])
+    async function fetchMenu() {
+      const result = await props.getVendors();
+      if (result.success) {
+        setMainVendors(result.data);
+        setSearchedVendors(result.data);
+      } else {
+        console.log(result.message);
+      }
+    }
+
+    fetchMenu();
+  }, [props])
 
   // TODO: Move search functionality to parent as search can occur on multiple pages
   // Recalculate searchedPosts when searchTerm changes, which occurs when user types something in search box

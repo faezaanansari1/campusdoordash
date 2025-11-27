@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import toast from "react-hot-toast";
 import './AuthPopup.css'
 
 const Signup = (props) => {
@@ -12,7 +11,7 @@ const Signup = (props) => {
     return (
         <div>
             <h2>Sign Up</h2>
-            <form onSubmit={(e) => props.handleSignup(e, name, password, email, phoneNumber, permission)}>
+            <form onSubmit={(e) => props.handleSignup(e, name, email, password, permission, phoneNumber)}>
                 <label>
                     Full name:
                     <input type="text" value={name} onChange={e => setName(e.target.value)} />

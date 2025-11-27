@@ -14,6 +14,7 @@ const App = () => {
   const [userInfo, setUserInfo] = useState({name: "guest"});
   const [cart, setCart] = useState([]);
 
+  // USER OPERATIONS
   // Gets user info
   async function getUser() {
     try {
@@ -42,7 +43,7 @@ const App = () => {
   // Log in user
   async function logInUser(email, password) {
     try {
-      const response = await api.post("/user/login", { email, password });
+      await api.post("/user/login", { email, password });
       await getUser();
       return { success: true };
     } catch (error) {
@@ -53,25 +54,61 @@ const App = () => {
   // Sign up user
   async function signUpUser(name, email, password, permission, phoneNumber) {
     try {
-      const response = await api.post("/user/register", { name, email, password, permission, phoneNumber });
+      await api.post("/user/register", { name, email, password, permission, phoneNumber });
       await getUser();
       return { success: true };
     } catch (error) {
-      const msg = error.response?.data?.message || "Error logging in";
+      const msg = error.response?.data?.message || "Error signing up";
       return { success: false, message: msg };    }
   }
 
   // Log out user
   async function logOutUser() {
     try {
-      console.log("Logging out user");
-      const res = await api.post("/user/logout", );
+      await api.post("/user/logout", );
       setUserInfo({name: "guest"});
       localStorage.removeItem("userInfo");
       return { success: true }
     } catch (error) {
-      const msg = error.response?.data?.message || "Error logging in";
+      const msg = error.response?.data?.message || "Error logging out";
       return { success: false, message: msg };    
+    }
+  }
+
+  //MENU and CART OPERATIONS
+  // Gets all vendors (catalog data) from db
+  async function getVendors() {
+    try {
+      const response = await api.get("/restaurants/listRestaurants");
+      return { success: true, data: response.data}
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error getting vendors";
+      return { success: false, message: msg };
+    }
+  };
+
+  // Gets all menu items (menu data) from db
+  async function getMenuItems(restaurantId) {
+    try {
+      const response = await api.get(`/restaurants/${restaurantId}/menu`);
+      return { success: true, data: response.data.items }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error getting menuitems";
+      return { success: false, message: msg };
+    }
+  };
+
+  // Adds item to cart
+  async function addToCart(itemID) {
+    try {
+      await api.post("/cart/addItem", {
+            menuItemId: itemID,
+            quantity: 1
+        });
+      return { success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error adding item to cart";
+      return { success: false, message: msg };
     }
   }
 
@@ -83,11 +120,11 @@ const App = () => {
     },
     {
       path:"/catalog",
-      element: <Catalog />
+      element: <Catalog getVendors={getVendors} />
     },
     {
       path:"/catalog/:id",
-      element: <Menu user={userInfo.name} cart={cart} setCart={setCart} />
+      element: <Menu user={userInfo.name} getMenuItems={getMenuItems} addToCart={addToCart} logInUser={logInUser} signUpUser={signUpUser} cart={cart} setCart={setCart} />
     },
     {
       path:"/cart/",

@@ -66,6 +66,7 @@ const Navbar = (props) => {
           useMode={"login"}
           toggle={togglePopup}
           logInUser={props.logInUser}
+          signUpUser={props.signUpUser}
         />
       )}
       <nav className="nav"></nav>

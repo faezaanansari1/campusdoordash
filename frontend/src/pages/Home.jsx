@@ -28,9 +28,9 @@ const Home = (props) => {
               <button className="home-page-btns">View Catalog</button>
             </Link>
             <button className="home-page-btns" onClick={toggleLoginPopup}>Log in</button>
-            {loginPopup ? <AuthPopup useMode={"login"} toggle={toggleLoginPopup} logInUser={props.logInUser} /> : null}
+            {loginPopup ? <AuthPopup useMode={"login"} toggle={toggleLoginPopup} logInUser={props.logInUser} signUpUser={props.signUpUser} /> : null}
             <button className="home-page-btns" onClick={toggleSignupPopup}>Sign up</button>
-            {signupPopup ? <AuthPopup useMode={"signup"} toggle={toggleSignupPopup} signUpUser={props.signUpUser} /> : null}
+            {signupPopup ? <AuthPopup useMode={"signup"} toggle={toggleSignupPopup} logInUser={props.logInUser} signUpUser={props.signUpUser} /> : null}
         </div>
     </div>
   );
