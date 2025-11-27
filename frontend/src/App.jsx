@@ -103,7 +103,7 @@ const App = () => {
 
     <div className="App">
 
-        <Navbar user={userInfo.name} />
+        <Navbar user={userInfo.name} logInUser={logInUser} signUpUser={signUpUser} />
         <Toaster 
         position="top-right"
         reverseOrder={false}
