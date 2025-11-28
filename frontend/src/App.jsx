@@ -12,7 +12,6 @@ import './index.css'
 
 const App = () => {
   const [userInfo, setUserInfo] = useState({name: "guest"});
-  const [cart, setCart] = useState([]);
 
   // USER OPERATIONS
   // Gets user cart
@@ -137,7 +136,7 @@ const App = () => {
     },
     {
       path:"/cart/",
-      element: <Cart user={userInfo.name} />
+      element: <Cart user={userInfo.name} getCart={getCart} updCartItemQty={updCartItemQty} />
     },
     {
       path:"/profile/",

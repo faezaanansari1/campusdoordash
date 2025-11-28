@@ -1,98 +1,45 @@
+import CartItem from '../components/CartItem'
 import "./Cart.css";
+import shackimg from '../assets/halalshack.png'
 import { useState, useEffect } from 'react';
-import api from "../lib/axios";
 import toast from "react-hot-toast";
 
 const Cart = (props) => {
-  // const sumPrices = (items) => {
-  //   return items.reduce((total, item) => {
-  //     return total + parseFloat(item.price);
-  //   }, 0);
-  // };
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  // const [refresh, setRefresh] = useState(false);
 
-  async function getCart() {
-    if (refresh === true) setRefresh(false);
-    try {
-        const response = await api.get(`/cart/getCart`);
-        console.log(response);
-        setCart(response.data.items);
-        setTotal(response.data.subtotal);
-    } catch (error) {
-        console.log("Error getting cart", error);
-    }
-  };
-
-  async function updateCart(itemID, quantity) {
-    try {
-        const response = await api.put(`/cart/updateItemQty/${itemID}`, {
-          quantity
-        });
-        console.log(response);
-        setRefresh(true);
-    } catch (error) {
-        console.log("Error updating cart", error);
-    }
-  };
-
-  async function removeFromCart(itemID) {
-    try {
-        const response = await api.delete(`/cart/removeItem/${itemID}`);
-        console.log(response);
-        setRefresh(true);
-    } catch (error) {
-        console.log("Error updating cart", error);
-    }
-  };
-
+  // Gets the cart items and subtotal
   useEffect(() => {
-    // Get cart items
-    getCart();
-  }, [refresh])
+    async function init() {
+      const cartres = await props.getCart();
+      if (cartres.success) {
+        console.log(cartres);
+        setCart(cartres.data.items);
+        setTotal(cartres.data.subtotal);
+      }
+    }
+    init();
+  }, []);
 
   return (
     <div className="cart">
-
       <h1>{props.user}'s cart</h1>
 
       <div className="cart-layout">
-
+        
         <div className="cart-items">
-          <ul>
-          {cart.map(item => (
-              <li key={item.price}>
-                  ${item.price} {item.name}, {item.quantity} in cart
-                  <div className="buttons">
-                    <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        updateCart(item._id, item.quantity+1);
-                    }}
-                    className="pay-btn"
-                    >Add 1</button>
-                    <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        updateCart(item._id, item.quantity-1);                        
-                    }}
-                    className="pay-btn"
-                    >Remove 1</button>
-                    <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        removeFromCart(item._id)
-                    }}
-                    className="pay-btn"
-                    >Remove from cart</button>
-                  </div>
-              </li>
+          {cart.map((item, index) => (
+            <CartItem
+              key={index}
+              name={item.name}
+              img={shackimg}
+              price={item.price}
+              id={item.menuItem}
+              quantity={item.quantity}
+              updCartItemQty={props.updCartItemQty}
+            />
           ))}
-          </ul>
-          {cart.length === 0 && (
-            <p>Your cart is empty.</p>
-          )}
         </div>
 
         <div className="cart-summary">
@@ -118,13 +65,7 @@ const Cart = (props) => {
             <span>${total}</span>
           </div>
 
-          <button
-          className="pay-btn"
-          onClick={(e) => {
-              e.stopPropagation();
-              
-          }}
-          >Place order</button>
+          <button className="pay-btn">Place order</button>
         </div>
 
       </div>

@@ -6,10 +6,14 @@
   display: flex;
   gap: 2rem;
   align-items: flex-start;
+  margin-top: 1rem;
 }
 
 .cart-items {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .cart-summary {
@@ -17,6 +21,7 @@
   border: 1px solid #eee;
   border-radius: 8px;
   padding: 1rem;
+  background: #fff;
 }
 
 .summary-row {
@@ -27,6 +32,7 @@
 
 .summary-row.total {
   font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .pay-btn {
@@ -38,4 +44,9 @@
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.pay-btn:hover {
+  background: #e0b100;
 }
