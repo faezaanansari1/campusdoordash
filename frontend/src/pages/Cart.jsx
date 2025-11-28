@@ -1,12 +1,14 @@
 import CartItem from '../components/CartItem'
+import OrderConfirmPopup from '../components/OrderConfirmPopup'
 import "./Cart.css";
 import shackimg from '../assets/halalshack.png'
 import { useState, useEffect } from 'react';
 
 const Cart = (props) => {
+  const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState([]);
-  // const [refresh, setRefresh] = useState(false);
+  const [confirmPopup, setConfirmPopup] = useState(false)
 
   // Gets the cart items and subtotal
   useEffect(() => {
@@ -20,6 +22,11 @@ const Cart = (props) => {
     }
     init();
   }, []);
+
+  function togglePopup () {
+    let prev = confirmPopup;
+    setConfirmPopup(!prev);
+  };
 
   const removeFromCartUI = (IDToRemove) => {
     setCart(prev => prev.filter(item => item._id !== IDToRemove));
@@ -53,7 +60,7 @@ const Cart = (props) => {
 
           <div className="summary-row">
             <span>Subtotal</span>
-            <span>${total}</span>
+            <span>${subtotal}</span>
           </div>
 
           <div className="summary-row">
@@ -71,10 +78,14 @@ const Cart = (props) => {
             <span>${total}</span>
           </div>
 
-          <button className="pay-btn">Place order</button>
+          <button 
+          onClick={togglePopup}
+          className="pay-btn">
+          Place order
+          </button>
         </div>
-
       </div>
+      {confirmPopup ? <OrderConfirmPopup  usersEmail={props.usersEmail} toggle={togglePopup} createOrder={props.createOrder} /> : null}
     </div>
   );
 };

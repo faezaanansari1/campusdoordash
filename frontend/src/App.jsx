@@ -121,6 +121,7 @@ const App = () => {
     }
   }
 
+  // Remove an item from cart
   async function removeFromCart(itemID) {
     try {
         await api.delete(`/cart/removeItem/${itemID}`);
@@ -130,6 +131,22 @@ const App = () => {
       return { success: false, message: msg };
     }
   };
+
+  // ORDER OPERATIONS
+  async function createOrder(dropoffBuilding, dropoffDetails) {
+    try {
+      await api.post("/orders/from-cart", {
+        dropoff: {
+          dropoffBuilding,
+          dropoffDetails
+        }
+      });
+      return { success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error creating order";
+      return { success: false, message: msg };
+    }
+  }
 
   // ROUTES
   let element = useRoutes([
@@ -147,7 +164,7 @@ const App = () => {
     },
     {
       path:"/cart/",
-      element: <Cart user={userInfo.name} getCart={getCart} updCartItemQty={updCartItemQty} removeFromCart={removeFromCart} />
+      element: <Cart user={userInfo.name} usersEmail={userInfo.email} getCart={getCart} updCartItemQty={updCartItemQty} removeFromCart={removeFromCart} createOrder={createOrder} />
     },
     {
       path:"/profile/",
