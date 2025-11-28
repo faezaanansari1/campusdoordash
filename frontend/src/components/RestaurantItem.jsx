@@ -1,7 +1,7 @@
-import './Card.css'
+import './RestaurantItem.css'
 import { Link } from 'react-router-dom';
 
-const Card = (props) => {
+const RestaurantItem = (props) => {
   // console.log(props);
   return (
     <div className='card'>
@@ -17,4 +17,4 @@ const Card = (props) => {
   );
 };
 
-export default Card;
+export default RestaurantItem;

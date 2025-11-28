@@ -2,7 +2,6 @@ import CartItem from '../components/CartItem'
 import "./Cart.css";
 import shackimg from '../assets/halalshack.png'
 import { useState, useEffect } from 'react';
-import toast from "react-hot-toast";
 
 const Cart = (props) => {
   const [total, setTotal] = useState(0);
@@ -22,6 +21,10 @@ const Cart = (props) => {
     init();
   }, []);
 
+  const removeFromCartUI = (IDToRemove) => {
+    setCart(prev => prev.filter(item => item._id !== IDToRemove));
+  }
+
   return (
     <div className="cart">
       <h1>{props.user}'s cart</h1>
@@ -35,9 +38,12 @@ const Cart = (props) => {
               name={item.name}
               img={shackimg}
               price={item.price}
+              idInCart={item._id}
               id={item.menuItem}
               quantity={item.quantity}
               updCartItemQty={props.updCartItemQty}
+              removeFromCart={props.removeFromCart}
+              removeFromCartUI={removeFromCartUI}
             />
           ))}
         </div>

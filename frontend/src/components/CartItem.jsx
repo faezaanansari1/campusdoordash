@@ -23,7 +23,7 @@ const MenuItem = (props) => {
     setAmountInCart(newAmount);
   }
 
-  // Handle click on add to cart. Perform addToCart
+  // Handle click on add to cart.
   async function handleAddToCart(e) {
 		e.preventDefault();
 		const result = await props.updCartItemQty(props.id, 1);
@@ -36,7 +36,7 @@ const MenuItem = (props) => {
 		}
   };
 
-  // Handle click on sub from cart. Perform addToCart
+  // Handle click on sub from cart.
   async function handleSubFromCart(e) {
 		e.preventDefault();
 		if (amountInCart > 0) {
@@ -51,6 +51,19 @@ const MenuItem = (props) => {
 		}
   };
 
+  // Handle click on remove from cart (removes all item quantities)
+  async function handleRemoveFromCart(e) {
+		e.preventDefault();
+		const result = await props.removeFromCart(props.idInCart);
+		if (result.success) {
+			toast('Removed from your cart', { icon: '🚮',});
+			props.removeFromCartUI(props.idInCart);
+		} else {
+			console.log(result.message);
+			toast.error("Something went wrong. Try again?");
+		}
+  };
+
   return (
     <div className='cart-group'>
       <div className="cart-item">
@@ -61,7 +74,7 @@ const MenuItem = (props) => {
         </div>
 
         <div className="cart-item-right">
-          <p className="cart-price">${props.price.toFixed(2)}</p>
+          <p className="cart-price">${props.price.toFixed(2)} each</p>
           <p className="cart-price">{amountInCart} in cart</p>
           <div className='cart-buttons'>
             <button
@@ -75,6 +88,12 @@ const MenuItem = (props) => {
             className="cart-btn"
             >
               -
+            </button>
+            <button
+              onClick={handleRemoveFromCart}
+              className="cart-btn"
+            >
+              Remove
             </button>
           </div>
         </div>

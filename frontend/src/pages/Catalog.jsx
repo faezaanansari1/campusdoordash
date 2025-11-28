@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './Catalog.css'
 import shackimg from '../assets/halalshack.png'
-import Card from '../components/Card'
-// import {catalogData} from '../data'
+import RestaurantItem from '../components/RestaurantItem'
 
 const Catalog = (props) => {
   const [mainVendors, setMainVendors] = useState([]);
@@ -81,7 +80,7 @@ const Catalog = (props) => {
             selectedLocation === "" || member.location === selectedLocation
           )
           .map((member, index) => (
-            <Card
+            <RestaurantItem
               key={index}
               id={member._id}
               name={member.name}

@@ -83,7 +83,7 @@ const App = () => {
     }
   }
 
-  //MENU and CART OPERATIONS
+  //MENU OPERATIONS
   // Gets all vendors (catalog data) from db
   async function getVendors() {
     try {
@@ -106,6 +106,7 @@ const App = () => {
     }
   };
 
+  // CART OPERATIONS
   // Update cart item quantity
   async function updCartItemQty(itemID, quantity) {
     try {
@@ -115,10 +116,20 @@ const App = () => {
         });
       return { success: true }
     } catch (error) {
-      const msg = error.response?.data?.message || "Error adding item to cart";
+      const msg = error.response?.data?.message || "Error updating cart item quantity";
       return { success: false, message: msg };
     }
   }
+
+  async function removeFromCart(itemID) {
+    try {
+        await api.delete(`/cart/removeItem/${itemID}`);
+        return { success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error removing item from cart";
+      return { success: false, message: msg };
+    }
+  };
 
   // ROUTES
   let element = useRoutes([
@@ -136,7 +147,7 @@ const App = () => {
     },
     {
       path:"/cart/",
-      element: <Cart user={userInfo.name} getCart={getCart} updCartItemQty={updCartItemQty} />
+      element: <Cart user={userInfo.name} getCart={getCart} updCartItemQty={updCartItemQty} removeFromCart={removeFromCart} />
     },
     {
       path:"/profile/",

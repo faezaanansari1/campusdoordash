@@ -74,8 +74,6 @@ export const updateItemQty = async (req, res) => {
         if (!Number.isInteger(quantity) || quantity < 1) {
             return res.status(400).json({ message: "qty must be an integer >= 1" });
         }
-        console.log(cartItemId);
-        console.log(req.user.cart);
         const line = req.user.cart.id(cartItemId);
         if (!line) {
             return res.status(404).json({ message: "Cart item not found" });
@@ -102,7 +100,6 @@ export const updateItemQty = async (req, res) => {
 export const removeItem = async (req, res) => {
     try {
         const { cartItemId } = req.params;
-
         const line = req.user.cart.id(cartItemId);
         if (!line) return res.status(404).json({ message: "Cart item not found" });
 
