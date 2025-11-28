@@ -15,17 +15,26 @@ const App = () => {
   const [cart, setCart] = useState([]);
 
   // USER OPERATIONS
+  // Gets user cart
+  async function getCart() {
+    try {
+      const cartres = await api.get("/cart/getCart", { withCredentials: true });
+      return { success: true, data: cartres.data };
+    } catch (error) {
+      console.log("Error fetching user or getting cart", error);
+    }
+  }
+
   // Gets user info
   async function getUser() {
     try {
       const res = await api.get("/user/is-auth", { withCredentials: true });
-      console.log(res);
       const savedUserInfoObject = res.data.user
       setUserInfo(savedUserInfoObject);
       const savedUserInfoString = JSON.stringify(savedUserInfoObject)
       localStorage.setItem("userInfo", savedUserInfoString);
     } catch (error) {
-        console.log("Error fetching user", error);
+        console.log("Error fetching user or getting cart", error);
     }
   }
 
@@ -35,7 +44,7 @@ const App = () => {
     if (savedUserInfoString) {
       const savedUserInfoObject = JSON.parse(savedUserInfoString);
       setUserInfo(savedUserInfoObject);
-    } else {  // check if auth'd, and save username
+    } else {  // check if auth'd, and save user info
       getUser();
     }
   }, []); // Runs only once on mount
@@ -98,12 +107,12 @@ const App = () => {
     }
   };
 
-  // Adds item to cart
-  async function addToCart(itemID) {
+  // Update cart item quantity
+  async function updCartItemQty(itemID, quantity) {
     try {
       await api.post("/cart/addItem", {
             menuItemId: itemID,
-            quantity: 1
+            quantity: quantity
         });
       return { success: true }
     } catch (error) {
@@ -124,7 +133,7 @@ const App = () => {
     },
     {
       path:"/catalog/:id",
-      element: <Menu user={userInfo.name} getMenuItems={getMenuItems} addToCart={addToCart} logInUser={logInUser} signUpUser={signUpUser} cart={cart} setCart={setCart} />
+      element: <Menu user={userInfo.name} getCart={getCart} getMenuItems={getMenuItems} updCartItemQty={updCartItemQty} logInUser={logInUser} signUpUser={signUpUser} />
     },
     {
       path:"/cart/",

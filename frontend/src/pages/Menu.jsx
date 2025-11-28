@@ -70,7 +70,8 @@ const Menu = (props) => {
         //   image_url={item.image_url}
           calories={item.calories}
           description={item.description}
-          addToCart={props.addToCart}
+          getCart={props.getCart}
+          updCartItemQty={props.updCartItemQty}
           logInUser={props.logInUser} 
           signUpUser={props.signUpUser}
         />

@@ -17,8 +17,12 @@ export const getCart = (req, res) => {
 export const addItem = async (req, res) => {
     try {
         const { menuItemId, quantity = 1, options = {} } = req.body;
-        if (!menuItemId || quantity < 1) {
-            return res.status(400).json({ message: "menuItemId and qty greater than or equal to 1 are required" });
+        // if (!menuItemId || quantity < 1) {
+        //     return res.status(400).json({ message: "menuItemId and qty greater than or equal to 1 are required" });
+        // }
+
+        if (!menuItemId) {
+            return res.status(400>json({message:"menu item not found"}));
         }
 
         // Load the menu item
