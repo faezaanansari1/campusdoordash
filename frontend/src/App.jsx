@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile';
+import Orders from './pages/Orders';
 import { Toaster } from "react-hot-toast";
 import api from "./lib/axios";
 import './index.css'
@@ -133,17 +134,29 @@ const App = () => {
   };
 
   // ORDER OPERATIONS
-  async function createOrder(dropoffBuilding, dropoffDetails) {
+  // Create order
+  async function createOrder(building, details) {
     try {
       await api.post("/orders/from-cart", {
         dropoff: {
-          dropoffBuilding,
-          dropoffDetails
+          building,
+          details
         }
       });
       return { success: true }
     } catch (error) {
       const msg = error.response?.data?.message || "Error creating order";
+      return { success: false, message: msg };
+    }
+  }
+
+  // getMyOrders
+  async function getMyOrders() {
+    try {
+      const response = await api.get("/orders/mine");
+      return { data: response.data, success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error getting my orders";
       return { success: false, message: msg };
     }
   }
@@ -169,6 +182,10 @@ const App = () => {
     {
       path:"/profile/",
       element: <Profile user={userInfo.name} logOutUser={logOutUser} />
+    },
+    {
+      path:"/orders/",
+      element: <Orders getMyOrders={getMyOrders} />
     }
   ]);
 

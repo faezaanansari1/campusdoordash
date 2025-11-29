@@ -32,6 +32,10 @@ const Cart = (props) => {
     setCart(prev => prev.filter(item => item._id !== IDToRemove));
   }
 
+  function clearCart () {
+    setCart([]);
+  }
+
   return (
     <div className="cart">
       <h1>{props.user}'s cart</h1>
@@ -85,7 +89,7 @@ const Cart = (props) => {
           </button>
         </div>
       </div>
-      {confirmPopup ? <OrderConfirmPopup  usersEmail={props.usersEmail} toggle={togglePopup} createOrder={props.createOrder} /> : null}
+      {confirmPopup ? <OrderConfirmPopup  usersEmail={props.usersEmail} clearCart={clearCart} toggle={togglePopup} createOrder={props.createOrder} /> : null}
     </div>
   );
 };

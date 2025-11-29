@@ -24,7 +24,7 @@ export const createOrderFromCart = async (req, res) => {
     if (req.body && req.body.dropoff) {
       dropoff = req.body.dropoff;
     }
-
+    console.log(dropoff);
     if (!dropoff.building || typeof dropoff.building !== "string") {
       return res.status(400).json({ message: "Drop-off building is required" });
     }
