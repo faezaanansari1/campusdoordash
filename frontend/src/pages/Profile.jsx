@@ -17,10 +17,22 @@ const Profile = (props) => {
 				}
 		}
 
+		async function handlePermissionChange(e) {
+				e.preventDefault();
+				const result = await props.changePermission();
+				if (result.success) {
+						toast.success("Changed your permission");
+				} else {
+						console.log("Error changing user permission ", result.message);
+						toast.error("Something went wrong. Try again?");
+				}
+		}
+
     return (
 			<div>
 				<h1>Profile for {props.user}</h1>
 				<button type="button" onClick={handleLogOut}>Log Out</button>
+				<button type="button" onClick={handlePermissionChange}>Change permission</button>
 			</div>
   );
 };

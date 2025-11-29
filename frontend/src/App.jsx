@@ -74,9 +74,28 @@ const App = () => {
   // Log out user
   async function logOutUser() {
     try {
-      await api.post("/user/logout", );
+      await api.post("/user/logout");
       setUserInfo({name: "guest"});
       localStorage.removeItem("userInfo");
+      return { success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error logging out";
+      return { success: false, message: msg };    
+    }
+  }
+
+  async function changePermission() {
+    let permission = "user";
+    if (userInfo.permission === "user") {
+      permission = "retriever";
+      getUser();
+    } else {
+      permission = "user";
+      getUser();
+    }
+    try {
+      const response = await api.patch("/me/permission", {permission});
+      console.log(response);
       return { success: true }
     } catch (error) {
       const msg = error.response?.data?.message || "Error logging out";
@@ -181,7 +200,7 @@ const App = () => {
     },
     {
       path:"/profile/",
-      element: <Profile user={userInfo.name} logOutUser={logOutUser} />
+      element: <Profile user={userInfo.name} logOutUser={logOutUser} changePermission={changePermission} />
     },
     {
       path:"/orders/",

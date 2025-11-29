@@ -68,3 +68,37 @@ export const changeMyPassword = async (req, res) => {
     await user.save();
     return res.json({ ok: true });
 };
+
+// Update permission /api/me/permission
+export const changeMyPermission = async (req, res) => {
+    const { permission } = req.body;
+
+    // allowed permissions
+    const allowedPermissions = ["user", "retriever", "admin"];
+
+    // check if new permission is valid
+    if (!allowedPermissions.includes(permission)) {
+        return res.status(400).json({ message: "Invalid permission value" });
+    }
+
+    try {
+        // Optional rule: only promote user → retriever (prevent abuse)
+        if (req.user.permission !== "user" && req.user.permission !== "retriever") {
+            return res.status(403).json({ message: "Not allowed to change permission" });
+        }
+
+        const updated = await User.findByIdAndUpdate(
+            req.user._id,
+            { permission },
+            {
+                new: true,
+                runValidators: true,
+                context: "query"
+            }
+        ).select("_id name email permission phoneNumber");
+
+        return res.json({success: true, data: updated});
+    } catch (e) {
+        return res.status(500).json({ message: e.message });
+    }
+};
