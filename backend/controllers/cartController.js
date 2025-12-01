@@ -26,7 +26,7 @@ export const addItem = async (req, res) => {
         }
 
         // Load the menu item
-        const mi = await MenuItem.findById(menuItemId, "name price");
+        const mi = await MenuItem.findById(menuItemId, "name price image_url");
         if (!mi) {
             return res.status(400).json({ message: "Item not found" });
         }
@@ -45,7 +45,8 @@ export const addItem = async (req, res) => {
                 name: mi.name,       
                 price: mi.price,     
                 quantity,
-                options
+                options,
+                image_url: mi.image_url
             });
         }
         

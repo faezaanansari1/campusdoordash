@@ -69,7 +69,7 @@ const Cart = (props) => {
             <CartItem
               key={index}
               name={item.name}
-              img={shackimg}
+              img={item.image_url}
               price={item.price}
               idInCart={item._id}
               id={item.menuItem}
