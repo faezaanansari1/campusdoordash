@@ -1,54 +1,39 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import './Menu.css'
-import OrderItem from '../components/OrderItem'
+import '../components/AuthPopup.css'
+import UserOrders from '../components/UserOrders'
+import RetrieverOrders from '../components/RetrieverOrders'
 const Orders = (props) => {
 //   const location = useLocation();
 //   const stateData = location.state;
-  const [mainOrders, setMainOrders] = useState([]);
+  // const [usersOrders, setUsersOrders] = useState([]);
+	const [mode, setMode] = useState([]);
 //   const [searchedItems, setSearchedItems] = useState([]);
 //   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    async function fetchOrders() {
-      const result = await props.getMyOrders();
-      if (result.success) {
-        setMainOrders(result.data);
-        console.log(result.data);
-      } else {
-        console.log(result.message);
-      }
-    }
-
-    fetchOrders();
-    console.log(mainOrders);
+		setMode(props.userInfo.permission);
+		// if (mode === "user") {
+		// 	fetchUsersOrders();
+		// }
   }, []);
 
   return (
     <div className='menu'>
       <h1>Orders</h1>
-      <p>Your order history</p>
-      <div className='filters'>
-      </div>
-
-      {!mainOrders ? (
-        <p>Loading orders...</p>
-      ) : mainOrders.length === 0 ? (
-        <p>Order history is empty.</p>
-      ) : (
-      mainOrders
-      .map((item, index) => (
-        <OrderItem
-          key={index}
-          createdAt={item.createdAt}
-          total={item.total}
-          dropoffBuilding={item.dropoff.building}
-          dropoffDetails={item.dropoff.details}
-          items={item.items}
-          status={item.status}
-        />
-      )))}
-    </div>
+			<div className='menu-header'>
+				{mode === "user" ? <p>Your order history</p> : <p>All available orders</p>}
+				<button
+					className="toggle-auth-link"
+					onClick={() => setMode(mode === "user" ? "retriever" : "user")}
+				>
+					{mode === "user" ? "View all available orders" : "View your own orders"}
+				</button>
+			</div>
+			{mode === "user" && <UserOrders getMyOrders={props.getMyOrders} />}
+			{mode === "retriever" && <RetrieverOrders getOrders={props.getOrders} />}
+		</div>
   );
 };
 

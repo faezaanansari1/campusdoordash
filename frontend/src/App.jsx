@@ -181,6 +181,18 @@ const App = () => {
     }
   }
 
+  // getOrders: for retriever
+  async function getOrders() {
+    try {
+      const response = await api.get("/orders/available");
+      console.log(response);
+      return { data: response.data, success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error getting orders";
+      return { success: false, message: msg };
+    }
+  }
+
   // ROUTES
   let element = useRoutes([
     {
@@ -205,7 +217,7 @@ const App = () => {
     },
     {
       path:"/orders/",
-      element: <Orders getMyOrders={getMyOrders} />
+      element: <Orders userInfo={userInfo} getOrders={getOrders} getMyOrders={getMyOrders} />
     }
   ]);
 

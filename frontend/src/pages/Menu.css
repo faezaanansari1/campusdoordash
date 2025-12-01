@@ -2,3 +2,12 @@
   font-family: sans-serif;
   font-size: 14px;
 }
+
+.menu-header {
+  display: flex;
+  justify-content: center;   /* centers the whole group */
+  align-items: center;        /* vertically aligned */
+  gap: 20px;                  /* space between p and button */
+  width: 100%;                /* ensures full-width container */
+  text-align: center;         /* does NOT center flex items but keeps p text centered if needed */
+}
