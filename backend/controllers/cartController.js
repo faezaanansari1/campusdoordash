@@ -80,8 +80,13 @@ export const updateItemQty = async (req, res) => {
             return res.status(404).json({ message: "Cart item not found" });
         }
 
-        // Update quantity and save
-        line.quantity = quantity;
+        if (quantity === 0) {
+            line.deleteOne();
+        } else {
+            // Update quantity
+            line.quantity = quantity;
+        }
+
         await req.user.save();
 
         // Recompute subtotal
@@ -104,8 +109,13 @@ export const removeItem = async (req, res) => {
         const line = req.user.cart.id(cartItemId);
         if (!line) return res.status(404).json({ message: "Cart item not found" });
 
-        // Remove the line and save
-        line.deleteOne();            
+        if (line.quantity > 1) {
+            line.quantity -= 1;
+        } else {
+            // If it would go to 0, remove the line entirely
+            line.deleteOne();
+        }
+
         await req.user.save();       
 
         // Recompute subtotal
