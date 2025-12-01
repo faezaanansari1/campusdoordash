@@ -2,12 +2,15 @@ import User from "../models/Users.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+// Used to remove fluff from a phone number
+const normalizePhone = (raw = "") => raw.replace(/\D/g, "");
+
 // Register User : /api/user/register
 export const register = async (req, res)=>{
     try {
         const{name, email, password, permission, phoneNumber} = req.body;
 
-        if(!name || !email || !password || !permission){
+        if(!name || !email || !password || !permission || !phoneNumber){
             return res.status(400).json({success: false, message:'Missing Details'});
         }
 
@@ -18,11 +21,28 @@ export const register = async (req, res)=>{
 
         // Normalize email
         const normEmail = email.trim().toLowerCase();
+        if (!normEmail.endsWith("@umbc.edu")) {
+            return res.status(400).json({ success: false, message: "Email must be a UMBC email address" });
+        }
 
         // Check if user exists
         const existingUser = await User.findOne({email: normEmail});
         if(existingUser)
             return res.status(409).json({success: false, message:'User Already Exists'});
+
+        let cleanedPhone = null;
+        const raw = normalizePhone(phoneNumber);   
+
+        // Require exactly 10 digits
+        if (!/^\d{10}$/.test(raw)) {
+            return res.status(400).json({success: false, message: "Phone number must be a 10-digit number" });
+        }
+        cleanedPhone = raw;
+
+        const existingPhoneUser = await User.findOne({ phoneNumber: cleanedPhone });
+        if (existingPhoneUser) {
+            return res.status(409).json({success: false, message: "Phone number already in use"});
+        }
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -33,7 +53,7 @@ export const register = async (req, res)=>{
             email, 
             password:hashedPassword,
             permission: permission && ["user", "retriever", "admin"].includes(permission) ? permission : "user",
-            phoneNumber: phoneNumber?.trim() || null,
+            phoneNumber: cleanedPhone,
         });
 
         // Issue JWT
