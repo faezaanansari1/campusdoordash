@@ -1,6 +1,6 @@
 import Restaurant from "../models/Restaurant.js";
 import MenuItem from "../models/MenuItem.js";
-import User from "../models/User.js";
+import User from "../models/Users.js";
 
 export const createRestaurant = async (req, res) => {
   const r = await Restaurant.create(req.body);
@@ -42,7 +42,7 @@ export const deleteMenuItem = async (req, res) => {
 };
 
 export const listUsers = async (_req, res) => {
-  const users = await User.find({}, "name email role phoneNumber createdAt").lean();
+  const users = await User.find({}, "name email permission phoneNumber createdAt").lean();
   return res.json(users);
 };
 
@@ -52,7 +52,7 @@ export const setUserRole = async (req, res) => {
     return res.status(400).json({ message: "Invalid permission" });
   }
 
-  const u = await User.findByIdAndUpdate(req.params.id, { permissionm }, { new: true }).select("name email permission phoneNumber");
+  const u = await User.findByIdAndUpdate(req.params.id, { permission }, { new: true }).select("name email permission phoneNumber");
   if (!u){
     return res.status(404).json({ message: "Not found" });
   }

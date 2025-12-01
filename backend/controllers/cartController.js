@@ -7,7 +7,7 @@ export const getCart = (req, res) => {
     const items = req.user.cart || [];
     let subtotal = 0;
     for (const it of items) {
-        subtotal += (it.price || 0) * (it.qty || 0);
+        subtotal += (it.price || 0) * (it.quantity || 0);
     }
 
     return res.json({ items, subtotal });
@@ -53,10 +53,10 @@ export const addItem = async (req, res) => {
         await req.user.save();
 
         // Recompute the subtotal
-        const items = req.user.cart.items || [];
+        const items = req.user.cart || [];
         let subtotal = 0;
         for (const it of items){
-            subtotal += (it.price || 0) * (it.qty || 0);
+            subtotal += (it.price || 0) * (it.quantity || 0);
         }
 
         return res.status(201).json({ items, subtotal });
@@ -87,7 +87,7 @@ export const updateItemQty = async (req, res) => {
         const items = req.user.cart || [];
         let subtotal = 0;
         for (const it of items){ 
-            subtotal += (it.price || 0) * (it.qty || 0);
+            subtotal += (it.price || 0) * (it.quantity || 0);
         }
 
         return res.json({ items, subtotal });
@@ -110,7 +110,7 @@ export const removeItem = async (req, res) => {
         // Recompute subtotal
         const items = req.user.cart || [];
         let subtotal = 0;
-        for (const it of items) subtotal += (it.price || 0) * (it.qty || 0);
+        for (const it of items) subtotal += (it.price || 0) * (it.quantity || 0);
         return res.json({ items, subtotal });
     } catch {
         return res.status(500).json({ message: "Server error" });
