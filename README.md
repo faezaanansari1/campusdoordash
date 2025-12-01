@@ -14,3 +14,5 @@ npm install
 This should install all dependencies
 
 To start up the project, you can use "npm run dev" at the root level of the project. The URL (localhost) should be in the terminal
+
+Add the env to the backend to get photos
