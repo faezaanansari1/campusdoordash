@@ -31,6 +31,7 @@ const App = () => {
       const res = await api.get("/user/is-auth", { withCredentials: true });
       const savedUserInfoObject = res.data.user
       setUserInfo(savedUserInfoObject);
+      console.log(savedUserInfoObject);
       const savedUserInfoString = JSON.stringify(savedUserInfoObject)
       localStorage.setItem("userInfo", savedUserInfoString);
     } catch (error) {
@@ -200,7 +201,7 @@ const App = () => {
     },
     {
       path:"/profile/",
-      element: <Profile user={userInfo.name} logOutUser={logOutUser} changePermission={changePermission} />
+      element: <Profile userInfo={userInfo} getMyOrders={getMyOrders} logOutUser={logOutUser} changePermission={changePermission} />
     },
     {
       path:"/orders/",

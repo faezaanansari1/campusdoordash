@@ -82,10 +82,10 @@ export const changeMyPermission = async (req, res) => {
     }
 
     try {
-        // Optional rule: only promote user → retriever (prevent abuse)
-        if (req.user.permission !== "user" && req.user.permission !== "retriever") {
-            return res.status(403).json({ message: "Not allowed to change permission" });
-        }
+        // // Optional rule: only promote user → retriever (prevent abuse)
+        // if (req.user.permission !== "user" && req.user.permission !== "retriever") {
+        //     return res.status(403).json({ message: "Not allowed to change permission" });
+        // }
 
         const updated = await User.findByIdAndUpdate(
             req.user._id,

@@ -105,7 +105,7 @@ export const isAuth = async (req, res)=>{
         if (!token) return res.json({ success: false, message: "Unauthorized" });
 
         const payload = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(payload.id).select("_id email name permission");
+        const user = await User.findById(payload.id).select("_id email name phoneNumber permission");
         if (!user) return res.json({ success: false, message: "Unauthorized" });
 
         return res.json({ success: true, user });
