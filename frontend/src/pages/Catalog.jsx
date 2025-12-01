@@ -84,7 +84,7 @@ const Catalog = (props) => {
               key={index}
               id={member._id}
               name={member.name}
-              img={shackimg}
+              img={member.image_url}
               loc={member.location}
               desc={member.description}
             />

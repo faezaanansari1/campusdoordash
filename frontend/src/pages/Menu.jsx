@@ -64,7 +64,7 @@ const Menu = (props) => {
           key={index}
           user={props.user}
           name={item.name}
-          img={shackimg}
+          img={item.image_url}
           price={item.price}
           id={item._id}
         //   image_url={item.image_url}
