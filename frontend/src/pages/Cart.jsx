@@ -28,8 +28,30 @@ const Cart = (props) => {
     setConfirmPopup(!prev);
   };
 
+  // Used in calculating total, avoids float issues
+  function toCents(moneyString) {
+    return Math.round(parseFloat(moneyString) * 100);
+  }
+
+  // Used in calculating total, avoids float issues
+  function toDollars(cents) {
+    return (cents / 100).toFixed(2);
+  }
+
   const removeFromCartUI = (IDToRemove) => {
     setCart(prev => prev.filter(item => item._id !== IDToRemove));
+  }
+
+  const increaseTotalUI = (price) => {
+    const newTotal = toCents(total) + toCents(price);
+    // console.log(total, newTotal);
+    setTotal(toDollars(newTotal));
+  }
+
+  const decreaseTotalUI = (price, amountInCart) => {
+    const newTotal = toCents(total) - (toCents(price) * amountInCart);
+    // console.log(total, newTotal);
+    setTotal(toDollars(newTotal));
   }
 
   function clearCart () {
@@ -55,6 +77,8 @@ const Cart = (props) => {
               updCartItemQty={props.updCartItemQty}
               removeFromCart={props.removeFromCart}
               removeFromCartUI={removeFromCartUI}
+              increaseTotalUI={increaseTotalUI}
+              decreaseTotalUI={decreaseTotalUI}
             />
           ))}
         </div>
@@ -89,7 +113,7 @@ const Cart = (props) => {
           </button>
         </div>
       </div>
-      {confirmPopup ? <OrderConfirmPopup  usersEmail={props.usersEmail} clearCart={clearCart} toggle={togglePopup} createOrder={props.createOrder} /> : null}
+      {confirmPopup ? <OrderConfirmPopup  total={total} usersEmail={props.usersEmail} clearCart={clearCart} toggle={togglePopup} createOrder={props.createOrder} /> : null}
     </div>
   );
 };

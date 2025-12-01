@@ -30,6 +30,7 @@ const MenuItem = (props) => {
 		if (result.success) {
 			toast.success("Added 1 item to cart");
 			incAmountInCart();
+      props.increaseTotalUI(props.price);
 		} else {
 			console.log(result.message);
 			toast.error("Something went wrong. Try again?");
@@ -44,6 +45,7 @@ const MenuItem = (props) => {
 			if (result.success) {
 				toast.success("Removed item from cart");
 				decAmountInCart();
+        props.decreaseTotalUI(props.price, 1);
 			} else {
 				console.log(result.message);
 				toast.error("Something went wrong. Try again?");
@@ -58,6 +60,7 @@ const MenuItem = (props) => {
 		if (result.success) {
 			toast('Removed from your cart', { icon: '🚮',});
 			props.removeFromCartUI(props.idInCart);
+      props.decreaseTotalUI(props.price, amountInCart);
 		} else {
 			console.log(result.message);
 			toast.error("Something went wrong. Try again?");
