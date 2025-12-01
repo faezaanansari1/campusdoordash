@@ -4,6 +4,26 @@ import MenuItem from "../models/MenuItem.js";
 const TAX_RATE = 0.06;
 const FEE_MIN  = 0.99;
 const FEE_RATE = 0.05;
+// List of allowed dropoff spots
+const UMBC_BUILDINGS = [
+  "The Commons",
+  "University Center",
+  "AOK Library",
+  "ITE",
+  "Math & Psych",
+  "Physics",
+  "Engineering",
+  "Fine Arts",
+  "PAHB",
+  "RAC",
+  "Patapsco Hall",
+  "Susquehanna Hall",
+  "Chesapeake Hall",
+  "Potomac Hall",
+  "Harbor Hall",
+  "Walker Apt",
+  "Erickson Hall"
+];
 
 // Creates an order: /api/orders/from-cart
 export const createOrderFromCart = async (req, res) => {
@@ -27,6 +47,12 @@ export const createOrderFromCart = async (req, res) => {
     console.log(dropoff);
     if (!dropoff.building || typeof dropoff.building !== "string") {
       return res.status(400).json({ message: "Drop-off building is required" });
+    }
+
+    const buildingName = dropoff.building.trim();
+    const isAllowedBuilding = UMBC_BUILDINGS.map(b => b.toLowerCase()).includes(buildingName.toLowerCase());
+    if (!isAllowedBuilding) {
+      return res.status(400).json({message: "Drop-off location must be a valid UMBC building"});
     }
 
     if (dropoff.details !== undefined && typeof dropoff.details !== "string") {
