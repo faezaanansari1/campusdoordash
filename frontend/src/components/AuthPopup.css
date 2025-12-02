@@ -120,3 +120,8 @@ background-color: #bfbfbf;
 color: #ffffff;
 cursor: not-allowed;
 }
+
+.required {
+  color: red;
+  margin-left: 2px;
+}

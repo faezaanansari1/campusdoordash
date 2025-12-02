@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './AuthPopup.css'
 
 const Signup = (props) => {
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -11,21 +12,25 @@ const Signup = (props) => {
     return (
         <div>
             <h2>Sign Up</h2>
-            <form onSubmit={(e) => props.handleSignup(e, name, email, password, permission, phoneNumber)}>
+            <form onSubmit={(e) => props.handleSignup(e, (firstName + " " + lastName).trim(), email, password, permission, phoneNumber)}>
                 <label>
-                    Full name:
-                    <input type="text" value={name} onChange={e => setName(e.target.value)} />
+                    First name<span className="required">*</span>:
+                    <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} />
                 </label>
                 <label>
-                    UMBC Email:
+                    Last name<span className="required">*</span>:
+                    <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} />
+                </label>
+                <label>
+                    UMBC Email<span className="required">*</span>:
                     <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
                 </label>
                 <label>
-                    Phone number:
+                    Phone number<span className="required">*</span>:
                     <input type="text" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
                 </label>
                 <label>
-                    Password:
+                    Password<span className="required">*</span>:
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
                 </label>
                 <div>
