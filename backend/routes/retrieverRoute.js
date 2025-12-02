@@ -5,7 +5,7 @@ import {listAvailableOrders, claimOrder, myWork} from "../controllers/orderContr
 
 const retrieverRouter = express.Router();
 
-retrieverRouter.use(authUser, requirePerm("retriever"));
+retrieverRouter.use(authUser, requirePerm("retriever", "admin"));
 
 retrieverRouter.get("/orders/available", listAvailableOrders);
 retrieverRouter.post("/orders/:id/claim", claimOrder);

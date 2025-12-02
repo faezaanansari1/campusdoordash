@@ -184,7 +184,7 @@ const App = () => {
   // getOrders: for retriever
   async function getOrders() {
     try {
-      const response = await api.get("/orders/available");
+      const response = await api.get("/retriever/orders/available");
       console.log(response);
       return { data: response.data, success: true }
     } catch (error) {

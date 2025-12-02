@@ -8,16 +8,19 @@ const Orders = (props) => {
 //   const location = useLocation();
 //   const stateData = location.state;
   // const [usersOrders, setUsersOrders] = useState([]);
-	const [mode, setMode] = useState([]);
+	const [mode, setMode] = useState("user");
 //   const [searchedItems, setSearchedItems] = useState([]);
 //   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-		setMode(props.userInfo.permission);
-		// if (mode === "user") {
-		// 	fetchUsersOrders();
-		// }
-  }, []);
+  if (props.userInfo && props.userInfo.permission) {
+    if (props.userInfo.permission === "retriever" || props.userInfo.permission === "admin") {
+      setMode("retriever");
+    } else {
+      setMode("user");
+    }
+  }
+}, [props.userInfo]);
 
   return (
     <div className='menu'>

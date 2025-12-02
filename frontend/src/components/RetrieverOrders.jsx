@@ -5,7 +5,7 @@ import './AuthPopup.css'
 import OrderItem from './OrderItem'
 
 const UserOrders = (props) => {
-  const [mainOrders, setMainOrders] = useState([]);
+  const [mainOrders, setMainOrders] = useState(null);
 
 	async function fetchOrders() {
 		const result = await props.getOrders();
@@ -14,6 +14,7 @@ const UserOrders = (props) => {
 			console.log(result.data);
 		} else {
 			console.log(result.message);
+      setMainOrders([]);
 		}
 	}
 
@@ -27,12 +28,12 @@ const UserOrders = (props) => {
       <div className='filters'>
       </div>
 
-      {/* {!props.mainOrders ? (
+       {mainOrders === null ? (
         <p>Loading orders...</p>
-      ) : props.mainOrders.length === 0 ? (
+      ) : mainOrders.length === 0 ? (
         <p>Order history is empty.</p>
       ) : (
-      props.mainOrders
+      mainOrders
       .map((item, index) => (
         <OrderItem
           key={index}
@@ -43,7 +44,7 @@ const UserOrders = (props) => {
           items={item.items}
           status={item.status}
         />
-      )))} */}
+      )))} 
     </div>
   );
 };

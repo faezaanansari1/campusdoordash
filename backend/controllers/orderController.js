@@ -236,7 +236,7 @@ export const listAvailableOrders = async (_req, res) => {
   try {
     // Find an order that is currently available to pick up
     const orders = await Order.find({
-      status: { $in: ["confirmed", "preparing"] },
+      status: { $in: ["confirmed", "preparing", "pending"] },
       retriever: null
     })
       .sort({ createdAt: 1 })

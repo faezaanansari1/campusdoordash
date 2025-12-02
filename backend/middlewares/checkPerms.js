@@ -1,5 +1,5 @@
 // Only allow users with a specific role, e.g. "retriever" or "admin"
-export const requirePerm = (perm) => {
+export const requirePerm = (...perms) => {
   return (req, res, next) => {
     // Check if user is logged in
     if (!req.user) {
@@ -7,7 +7,7 @@ export const requirePerm = (perm) => {
     }
 
     // Check permissions
-    if (req.user.permission !== perm) {
+    if (!perms.includes(req.user.permission)) {
       return res.status(403).json({ message: "Not authorized" });
     }
 

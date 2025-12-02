@@ -28,11 +28,14 @@ const AuthPopup = (props) => {
 
     async function handleSignup(e, name, email, password, permission, phoneNumber) {
         e.preventDefault();
-        if (!name || !password || !email || !phoneNumber) {
+        const trimmedName = (name || "").trim();
+        const nameParts = trimmedName.split(" ").filter(Boolean);
+
+        if (nameParts.length < 2 || !password || !email || !phoneNumber) {
 					toast.error("All fields are required");
 					return;
         }
-        const result = await props.signUpUser(name, email, password, permission, phoneNumber);
+        const result = await props.signUpUser(trimmedName, email, password, permission, phoneNumber);
         if (result.success) {
 					toast.success("Successfully signed up and logged you in!");
 					props.toggle();
