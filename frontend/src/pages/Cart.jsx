@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 
 const Cart = (props) => {
   const [subtotal, setSubtotal] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState([]);
   const [confirmPopup, setConfirmPopup] = useState(false)
@@ -16,8 +18,12 @@ const Cart = (props) => {
       const cartres = await props.getCart();
       if (cartres.success) {
         console.log(cartres);
-        setCart(cartres.data.items);
-        setTotal(cartres.data.subtotal);
+        const data = cartres.data;
+        setCart(data.items);
+        setSubtotal(data.subtotal);
+        setDeliveryFee(data.deliveryFee);
+        setTax(data.tax);
+        setTotal(data.total);
       }
     }
     init();
@@ -88,22 +94,22 @@ const Cart = (props) => {
 
           <div className="summary-row">
             <span>Subtotal</span>
-            <span>${subtotal}</span>
+            <span>${subtotal.toFixed ? subtotal.toFixed(2) : subtotal}</span>
           </div>
 
           <div className="summary-row">
             <span>Delivery Fee</span>
-            <span>$0.00</span>
+            <span>${deliveryFee.toFixed ? deliveryFee.toFixed(2) : deliveryFee}</span>
           </div>
 
           <div className="summary-row">
             <span>Tax</span>
-            <span>$0.00</span>
+            <span>${tax.toFixed ? tax.toFixed(2) : tax}</span>
           </div>
 
           <div className="summary-row total">
             <span>Total</span>
-            <span>${total}</span>
+            <span>${total.toFixed ? total.toFixed(2) : total}</span>
           </div>
 
           <button 

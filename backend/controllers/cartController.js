@@ -1,28 +1,45 @@
 import MenuItem from "../models/MenuItem.js";
 
-// Gets User Cart : /api/cart/getCart
-export const getCart = (req, res) => {
+const TAX_RATE = 0.06;
+const FEE_MIN  = 0.99;
+const FEE_RATE = 0.05;
 
-    // Get items in the cart and calculate subtotal
-    const items = req.user.cart || [];
+function computeTotals(items = []) {
     let subtotal = 0;
     for (const it of items) {
         subtotal += (it.price || 0) * (it.quantity || 0);
     }
 
-    return res.json({ items, subtotal });
+    let deliveryFee = 0;
+    let tax = 0;
+    let total = 0;
+
+    if (items.length > 0) {
+        deliveryFee = Math.max(FEE_MIN, subtotal * FEE_RATE);
+        tax = +(subtotal * TAX_RATE).toFixed(2);
+        total = +(subtotal + deliveryFee + tax).toFixed(2);
+    }
+
+    return { subtotal, deliveryFee, tax, total };
+}
+
+// Gets User Cart : /api/cart/getCart
+export const getCart = (req, res) => {
+
+    // Get items in the cart and calculate subtotal
+    const items = req.user.cart || [];
+    const { subtotal, deliveryFee, tax, total } = computeTotals(items);
+
+    return res.json({ items, subtotal, deliveryFee, tax, total });
 }
 
 // Adds item to cart : /api/cart/addItem
 export const addItem = async (req, res) => {
     try {
         const { menuItemId, quantity = 1, options = {} } = req.body;
-        // if (!menuItemId || quantity < 1) {
-        //     return res.status(400).json({ message: "menuItemId and qty greater than or equal to 1 are required" });
-        // }
 
         if (!menuItemId) {
-            return res.status(400>json({message:"menu item not found"}));
+            return res.status(400).json({message:"menu item not found"});
         }
 
         // Load the menu item
@@ -55,12 +72,8 @@ export const addItem = async (req, res) => {
 
         // Recompute the subtotal
         const items = req.user.cart || [];
-        let subtotal = 0;
-        for (const it of items){
-            subtotal += (it.price || 0) * (it.quantity || 0);
-        }
-
-        return res.status(201).json({ items, subtotal });
+        const { subtotal, deliveryFee, tax, total } = computeTotals(items);
+        return res.json({ items, subtotal, deliveryFee, tax, total });
     } catch {
         return res.status(500).json({ message: "Server error" });
     }
@@ -72,8 +85,8 @@ export const updateItemQty = async (req, res) => {
         const { cartItemId } = req.params;   
         const { quantity } = req.body;            
         // Check quantity
-        if (!Number.isInteger(quantity) || quantity < 1) {
-            return res.status(400).json({ message: "qty must be an integer >= 1" });
+        if (!Number.isInteger(quantity)) {
+            return res.status(400).json({ message: "qty must be an integer" });
         }
         const line = req.user.cart.id(cartItemId);
         if (!line) {
@@ -91,12 +104,8 @@ export const updateItemQty = async (req, res) => {
 
         // Recompute subtotal
         const items = req.user.cart || [];
-        let subtotal = 0;
-        for (const it of items){ 
-            subtotal += (it.price || 0) * (it.quantity || 0);
-        }
-
-        return res.json({ items, subtotal });
+        const { subtotal, deliveryFee, tax, total } = computeTotals(items);
+        return res.json({ items, subtotal, deliveryFee, tax, total });
     } catch {
         return res.status(500).json({ message: "Server error" });
     }
@@ -120,9 +129,8 @@ export const removeItem = async (req, res) => {
 
         // Recompute subtotal
         const items = req.user.cart || [];
-        let subtotal = 0;
-        for (const it of items) subtotal += (it.price || 0) * (it.quantity || 0);
-        return res.json({ items, subtotal });
+        const { subtotal, deliveryFee, tax, total } = computeTotals(items);
+        return res.json({ items, subtotal, deliveryFee, tax, total });  
     } catch {
         return res.status(500).json({ message: "Server error" });
     }

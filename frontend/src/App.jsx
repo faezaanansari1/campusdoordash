@@ -201,7 +201,7 @@ const App = () => {
     },
     {
       path:"/catalog",
-      element: <Catalog getVendors={getVendors} />
+      element: <Catalog getVendors={getVendors} userInfo={userInfo}/>
     },
     {
       path:"/catalog/:id",

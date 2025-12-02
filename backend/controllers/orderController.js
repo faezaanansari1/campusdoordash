@@ -4,6 +4,26 @@ import MenuItem from "../models/MenuItem.js";
 const TAX_RATE = 0.06;
 const FEE_MIN  = 0.99;
 const FEE_RATE = 0.05;
+
+function computeTotals(items = []) {
+    let subtotal = 0;
+    for (const it of items) {
+        subtotal += (it.price || 0) * (it.quantity || 0);
+    }
+
+    let deliveryFee = 0;
+    let tax = 0;
+    let total = 0;
+
+    if (items.length > 0) {
+        deliveryFee = Math.max(FEE_MIN, subtotal * FEE_RATE);
+        tax = +(subtotal * TAX_RATE).toFixed(2);
+        total = +(subtotal + deliveryFee + tax).toFixed(2);
+    }
+
+    return { subtotal, deliveryFee, tax, total };
+}
+
 // List of allowed dropoff spots
 const UMBC_BUILDINGS = [
   "The Commons",
@@ -105,15 +125,7 @@ export const createOrderFromCart = async (req, res) => {
     }
 
     // Calculate totals
-    let subtotal = 0;
-    for (const it of items) {
-      subtotal += it.price * it.quantity;
-    }
-    const tax = Number((subtotal * TAX_RATE).toFixed(2));
-    const deliveryFee = Number(
-      Math.max(FEE_MIN, subtotal * FEE_RATE).toFixed(2)
-    );
-    const total = Number((subtotal + tax + deliveryFee).toFixed(2));
+    const { subtotal, tax, deliveryFee, total } = computeTotals(items);
 
     // Create order 
     const order = await Order.create({

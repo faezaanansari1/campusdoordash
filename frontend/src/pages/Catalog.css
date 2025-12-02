@@ -120,3 +120,135 @@ h1 {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+.admin-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.admin-btn {
+  background: #ffd900;
+  border: 2px solid #000;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #000;
+  transition: 0.1s transform, 0.1s box-shadow, 0.1s background;
+}
+
+.admin-btn:hover {
+  background: #ffe766;
+  box-shadow: 3px 3px 0 #000;
+  transform: translate(-1px, -1px);
+}
+
+.admin-btn.small {
+  padding: 3px 10px;
+  font-size: 0.8rem;
+}
+
+.admin-btn.danger {
+  background: #ff6b6b;
+}
+
+.admin-btn.danger:hover {
+  background: #ff8585;
+}
+
+.admin-btn.secondary {
+  background: #fff7c2;
+}
+
+.restaurant-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.restaurant-admin-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 6px;
+  margin-right: 10px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fffbea;
+  padding: 18px 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  min-width: 280px;
+  max-width: 400px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.modal h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.modal-form label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  margin-top: 2px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.modal.modal-confirm {
+  max-width: 320px;
+  text-align: center;
+}
+
+.modal.modal-confirm h3 {
+  margin: 0 0 8px;
+}
+
+.modal.modal-confirm p {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+}
