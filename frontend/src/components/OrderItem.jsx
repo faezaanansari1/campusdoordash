@@ -6,10 +6,21 @@ const OrderItem = (props) => {
 //   const [popup, setPopup] = useState(false);
   const [customerInfo, setCustomerInfo] = useState([]);
   const [retrieverInfo, setRetrieverInfo] = useState([]);
+  const [restaurantInfo, setRestaurantInfo] = useState([]);
   async function fetchCustomerInfo() {
     const result = await props.getUser(props.customer);
     if (result.success) {
       setCustomerInfo(result.data.data);
+    } else {
+      console.log(result.message);
+    }
+  }
+
+  async function getRestaurantName() {
+    console.log("restaurant,", props.restaurant);
+    const result = await props.getRestaurantName(props.restaurant);
+    if (result.success) {
+      setRestaurantInfo(result.name);
     } else {
       console.log(result.message);
     }
@@ -31,12 +42,19 @@ const OrderItem = (props) => {
     } else {
       setRetrieverInfo({name: "none"});
     }
+    // getRestaurantName();
   }, []);
 
 
   // When user clicks on retrieve an order
   function handleRetrieve() {
     props.retrieveOrder(props.id);
+  }
+
+
+  // When user clicks on retrieve an order
+  function handleComplete() {
+    props.completeOrder(props.id);
   }
 
   return (
@@ -57,9 +75,12 @@ const OrderItem = (props) => {
         <div className="order-item-right">
           <p className="order-price">Total: ${props.total}</p>
           <div className='menu-buttons'>
-            {props.mode === "retriever" ? 
-              <button onClick={handleRetrieve}>Retrieve order</button> : 
-              <button>Delete order</button>}
+            {/* {props.mode === "retriever" ? 
+              <button onClick={handleRetrieve}>Retriever order</button> : 
+              <button>Delete order</button>} */}
+            {props.mode === "retriever" && <button onClick={handleRetrieve}>Retrieve order</button>}
+            {props.mode === "user" && <button>Delete order</button>}
+            {(props.mode === "retrieverWork" && !(props.status === "delivered")) && <button onClick={handleComplete}>Complete order</button>}
           </div>
           {/* <div className='menu-buttons'>
             <button

@@ -40,12 +40,14 @@ const UserOrders = (props) => {
           createdAt={item.createdAt}
           customer={item.customer}
           retriever={item.retriever}
+          restaurant={item.restaurant}
           total={item.total}
           dropoffBuilding={item.dropoff.building}
           dropoffDetails={item.dropoff.details}
           items={item.items}
           status={item.status}
           getUser={props.getUserById}
+          getRestaurantName={props.getRestaurantName}
         />
       )))}
     </div>

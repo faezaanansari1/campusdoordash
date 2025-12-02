@@ -4,6 +4,7 @@ import './Menu.css'
 import '../components/AuthPopup.css'
 import UserOrders from '../components/UserOrders'
 import RetrieverOrders from '../components/RetrieverOrders'
+import RetrieverWorkOrders from '../components/RetrieverWorkOrders'
 const Orders = (props) => {
 //   const location = useLocation();
 //   const stateData = location.state;
@@ -33,6 +34,7 @@ const Orders = (props) => {
 			<div className='menu-header'>
 				{mode === "user" && <p>Your order history</p>}
         {mode === "retriever" && <p>All available orders</p>}
+        {mode === "retrieverWork" && <p>Orders you have claimed</p>}
 				{/* <button
 					className="toggle-auth-link"
 					onClick={() => setMode(mode === "user" ? "retriever" : "user")}
@@ -55,8 +57,9 @@ const Orders = (props) => {
           </div>
         </div>
 			</div>
-			{mode === "user" && <UserOrders mode={"user"} getUserById={props.getUserById} getMyOrders={props.getMyOrders} />}
-			{mode === "retriever" && <RetrieverOrders mode={"retriever"} getUserById={props.getUserById} getOrders={props.getOrders} claimOrder={props.claimOrder} />}
+			{mode === "user" && <UserOrders mode={mode} getUserById={props.getUserById} getMyOrders={props.getMyOrders} getRestaurantName={props.getRestaurantName} />}
+			{mode === "retriever" && <RetrieverOrders mode={mode} getUserById={props.getUserById} getOrders={props.getOrders} claimOrder={props.claimOrder} getRestaurantName={props.getRestaurantName} />}
+      {mode === "retrieverWork" && <RetrieverWorkOrders mode={mode} getUserById={props.getUserById} getOrders={props.getOrders} claimOrder={props.claimOrder} getWork={props.getWork} getRestaurantName={props.getRestaurantName} updateOrderStatus={props.updateOrderStatus} />}
 		</div>
   );
 };

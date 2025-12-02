@@ -106,7 +106,6 @@ const App = () => {
     }
     try {
       const response = await api.patch("/me/permission", {permission});
-      console.log(response);
       getUser();
       return { success: true }
     } catch (error) {
@@ -132,6 +131,18 @@ const App = () => {
     try {
       const response = await api.get(`/restaurants/${restaurantId}/menu`);
       return { success: true, data: response.data.items }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error getting menuitems";
+      return { success: false, message: msg };
+    }
+  };
+
+  // Gets the restaurant name by ID
+  async function getRestaurantByID(restaurantId) {
+    try {
+      const response = await api.get(`/restaurants/${restaurantId}/`);
+      console.log(response.data);
+      return { success: true, data: response.data }
     } catch (error) {
       const msg = error.response?.data?.message || "Error getting menuitems";
       return { success: false, message: msg };
@@ -210,7 +221,6 @@ const App = () => {
   async function getOrders() {
     try {
       const response = await api.get("/retriever/orders/available");
-      console.log(response);
       return { data: response.data, success: true }
     } catch (error) {
       const msg = error.response?.data?.message || "Error getting orders";
@@ -222,6 +232,31 @@ const App = () => {
   async function claimOrder(id) {
     try {
       const response = await api.get(`/orders/${id}/claim`);
+      return { data: response.data, success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error claiming my orders";
+      return { success: false, message: msg };
+    }
+  }
+
+  // gets orders for retriever
+  async function getWork() {
+    try {
+      const response = await api.get(`/orders/my-work`);
+      return { data: response.data, success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error getting my orders";
+      return { success: false, message: msg };
+    }
+  }
+
+  // Update order status for retriever
+  async function updateOrderStatus(id) {
+    try {
+      const response = await api.patch(`/orders/${id}/status`, {
+        id,
+        status: "delivered"
+      });
       return { data: response.data, success: true }
     } catch (error) {
       const msg = error.response?.data?.message || "Error getting my orders";
@@ -253,7 +288,7 @@ const App = () => {
     },
     {
       path:"/orders/",
-      element: <Orders userInfo={userInfo} getUserById={getUserById} getOrders={getOrders} getMyOrders={getMyOrders} claimOrder={claimOrder} />
+      element: <Orders userInfo={userInfo} getUserById={getUserById} getOrders={getOrders} getMyOrders={getMyOrders} claimOrder={claimOrder} getWork={getWork} getRestaurantName={getRestaurantByID} updateOrderStatus={updateOrderStatus} />
     },
     {
       path: "/admin/users",

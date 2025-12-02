@@ -1,38 +1,47 @@
 import { useState, useEffect } from 'react';
 import '../pages/Menu.css'
 import '../pages/Catalog.css'
-import './AuthPopup.css'
 import OrderItem from './OrderItem'
 
-const RetrieverOrders = (props) => {
+const RetrieverWorkOrders = (props) => {
   const [mainOrders, setMainOrders] = useState(null);
 
-	async function fetchOrders() {
-		const result = await props.getOrders();
+	async function fetchWorkOrders() {
+		const result = await props.getWork();
 		if (result.success) {
-			setMainOrders(result.data);
-      console.log("get orders in retrieverorders");
-			console.log(result.data);
+            setMainOrders([...result.data.active, ...result.data.history]);
+            console.log(result);
 		} else {
 			console.log(result.message);
       setMainOrders([]);
 		}
 	}
 
+  // completeOrder
+	async function completeOrder(id) {
+		const result = await props.updateOrderStatus(id);
+		if (result.success) {
+            // Update UI
+            console.log(result.data);
+		} else {
+            console.log(result.message);
+		}
+	}
+
   useEffect(() => {
-    fetchOrders();
+    fetchWorkOrders();
   }, []);
 
   // claimOrder
-	async function retrieveOrder(id) {
-		const result = await props.claimOrder(id);
-		if (result.success) {
-      // TODO UPDATE UI
-			console.log(result.data);
-		} else {
-			console.log(result.message);
-		}
-	}
+	// async function retrieveOrder(id) {
+	// 	const result = await props.claimOrder(id);
+	// 	if (result.success) {
+    //   // TODO UPDATE UI
+	// 		console.log(result.data);
+	// 	} else {
+	// 		console.log(result.message);
+	// 	}
+	// }
 
 
   return (
@@ -61,12 +70,13 @@ const RetrieverOrders = (props) => {
           items={item.items}
           status={item.status}
           getUser={props.getUserById}
-          retrieveOrder={retrieveOrder}
+        //   retrieveOrder={retrieveOrder}
           getRestaurantName={props.getRestaurantName}
+          completeOrder={props.updateOrderStatus}
         />
       )))} 
     </div>
   );
 };
 
-export default RetrieverOrders;
+export default RetrieverWorkOrders;
