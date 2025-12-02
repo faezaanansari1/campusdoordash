@@ -11,6 +11,7 @@ const UserOrders = (props) => {
 		const result = await props.getOrders();
 		if (result.success) {
 			setMainOrders(result.data);
+      console.log("get orders in retrieverorders");
 			console.log(result.data);
 		} else {
 			console.log(result.message);
@@ -21,6 +22,17 @@ const UserOrders = (props) => {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  // claimOrder
+	async function retrieveOrder(id) {
+		const result = await props.claimOrder(id);
+		if (result.success) {
+      // TODO UPDATE UI
+			console.log(result.data);
+		} else {
+			console.log(result.message);
+		}
+	}
 
 
   return (
@@ -34,15 +46,21 @@ const UserOrders = (props) => {
         <p>Order history is empty.</p>
       ) : (
       mainOrders
-      .map((item, index) => (
+      .map((item) => (
         <OrderItem
-          key={index}
+          key={item._id}
+          id={item._id}
+          mode={props.mode}
           createdAt={item.createdAt}
+          customer={item.customer}
+          retriever={item.retriever}
           total={item.total}
           dropoffBuilding={item.dropoff.building}
           dropoffDetails={item.dropoff.details}
           items={item.items}
           status={item.status}
+          getUser={props.getUserById}
+          retrieveOrder={retrieveOrder}
         />
       )))} 
     </div>

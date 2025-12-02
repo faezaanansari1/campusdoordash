@@ -50,6 +50,17 @@ const App = () => {
     }
   }, []); // Runs only once on mount
 
+  // Gets user info by ID
+  async function getUserById(userID) {
+    try {
+      const res = await api.get(`/me/${userID}`);
+      return {success: true, data: res};
+    } catch (error) {
+        const msg = error.response?.data?.message || "Error getting user by id";
+        return { success: false, message: msg };
+    }
+  }
+
   // Log in user
   async function logInUser(email, password) {
     try {
@@ -89,14 +100,13 @@ const App = () => {
     let permission = "user";
     if (userInfo.permission === "user") {
       permission = "retriever";
-      getUser();
     } else {
       permission = "user";
-      getUser();
     }
     try {
       const response = await api.patch("/me/permission", {permission});
       console.log(response);
+      getUser();
       return { success: true }
     } catch (error) {
       const msg = error.response?.data?.message || "Error changing permission";
@@ -195,7 +205,7 @@ const App = () => {
     }
   }
 
-  // getOrders: for retriever
+  // getOrders: for retriever, gets all available orders
   async function getOrders() {
     try {
       const response = await api.get("/retriever/orders/available");
@@ -203,6 +213,17 @@ const App = () => {
       return { data: response.data, success: true }
     } catch (error) {
       const msg = error.response?.data?.message || "Error getting orders";
+      return { success: false, message: msg };
+    }
+  }
+
+  // retriever can claim an order
+  async function claimOrder(id) {
+    try {
+      const response = await api.get(`/orders/${id}/claim`);
+      return { data: response.data, success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error getting my orders";
       return { success: false, message: msg };
     }
   }
@@ -231,7 +252,7 @@ const App = () => {
     },
     {
       path:"/orders/",
-      element: <Orders userInfo={userInfo} getOrders={getOrders} getMyOrders={getMyOrders} />
+      element: <Orders userInfo={userInfo} getUserById={getUserById} getOrders={getOrders} getMyOrders={getMyOrders} claimOrder={claimOrder} />
     }
   ]);
 
@@ -241,7 +262,7 @@ const App = () => {
 
         <Navbar user={userInfo.name} logInUser={logInUser} signUpUser={signUpUser} />
         <Toaster 
-        position="top-right"
+        position="top-left"
         reverseOrder={false}
         />
         <div>

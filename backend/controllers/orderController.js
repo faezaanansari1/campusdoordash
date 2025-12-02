@@ -272,11 +272,11 @@ export const claimOrder = async (req, res) => {
       {
         _id: id,
         retriever: null, 
-        status: { $in: ["confirmed", "preparing"] }
+        status: { $in: ["confirmed", "preparing", "pending",] }
       },
       {
-        retriever: req.user._id
-        // status: "preparing"
+        retriever: req.user._id,
+        status: "confirmed"
       },
       { 
         new: true 

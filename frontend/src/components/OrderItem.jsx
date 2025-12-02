@@ -3,71 +3,50 @@ import './OrderItem.css'
 // import toast from "react-hot-toast";
 
 const OrderItem = (props) => {
-//   const [popup, setPopup] = useState(false); // Tracks whether AuthPopup should be displayed
-//   const [amountInCart, setAmountInCart] = useState(0);
-//   const [cart, setCart] = useState([]);
+//   const [popup, setPopup] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState([]);
+  const [retrieverInfo, setRetrieverInfo] = useState([]);
+  async function fetchCustomerInfo() {
+    const result = await props.getUser(props.customer);
+    if (result.success) {
+      setCustomerInfo(result.data.data);
+    } else {
+      console.log(result.message);
+    }
+  }
 
-//   useEffect(() => {
-//     async function init() {
-//       const cartres = await props.getCart();
-//       if (cartres.success) {
-//         setCart(cartres.data.items);
-//         const item = cartres.data.items.find(c =>
-//           String(c.menuItem) === String(props.id)
-//         );
-//         console.log(item);
-//         setAmountInCart(item ? item.quantity : 0);
-//       }
-//     }
-//     init();
-//   }, [props.id]);
+  async function fetchRetrieverInfo() {
+    const result = await props.getUser(props.retriever);
+    if (result.success) {
+      setRetrieverInfo(result.data.data);
+    } else {
+      console.log(result.message);
+    }
+  }
 
-//   function togglePopup () {
-//     let prev = popup;
-//     setPopup(!prev);
-//   };
+  useEffect(() => {
+    fetchCustomerInfo();
+    if (props.retriever){ 
+      fetchRetrieverInfo();
+    } else {
+      setRetrieverInfo({name: "none"});
+    }
+  }, []);
 
-//   function incAmountInCart() {
-//     const newAmount = amountInCart + 1;
-//     setAmountInCart(newAmount);
-//   }
 
-//   function decAmountInCart() {
-//     const newAmount = amountInCart - 1;
-//     setAmountInCart(newAmount);
-//   }
+  // When user clicks on retrieve an order
+  function handleRetrieve() {
+    props.retrieveOrder(props.id);
+  }
 
-  // If click on link as a guest, set popup to true to display the AuthPopup
-//   const handleCartBtnClick = (e) => {
-//     if (props.user === "guest") {
-//       e.preventDefault(); // Prevent navigation
-//       setPopup(true); // Show the AuthPopup
-//       toast('Please sign in first!', { icon: '🤔',});
-//     }
-//   };
-
-  // Handle click on add to cart. If user == "guest", engage unauthorized access functionality
-  // If user is auth'd, perform addToCart
-//   async function handleAddToCart(e) {
-//     if (props.user === "guest") {
-//       handleCartBtnClick(e);
-//     } else {
-//       const result = await props.updCartItemQty(props.id, 1);
-//       if (result.success) {
-//         toast.success("Added item to cart");
-//         incAmountInCart();
-//       } else {
-//         console.log(result.message);
-//         toast.error("Something went wrong. Try again?");
-//       }
-//     }
-//   };
-
-  console.log(props);
   return (
     <div className='order-group'>
       <div className="order-item">
-        <p>{props.status}</p>
+        <div className='info'>
+          <p>{props.status}</p>
+          <p className='order-item-desc'>Placed by: {customerInfo.name}</p>
+          <p className='order-item-desc'>Retrieving: {retrieverInfo.name}</p>
+        </div>
 
         <div className="order-item-text">
           <p>Order was made {props.createdAt}</p>
@@ -77,6 +56,11 @@ const OrderItem = (props) => {
 
         <div className="order-item-right">
           <p className="order-price">Total: ${props.total}</p>
+          <div className='menu-buttons'>
+            {props.mode === "retriever" ? 
+              <button onClick={handleRetrieve}>Retrieve order</button> : 
+              <button>Delete order</button>}
+          </div>
           {/* <div className='menu-buttons'>
             <button
               onClick={handleAddToCart}

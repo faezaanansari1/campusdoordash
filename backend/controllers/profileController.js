@@ -4,7 +4,28 @@ import User from "../models/Users.js";
 export const getMe = async (req, res) => {
     const me = await User.findById(req.user._id)
     .select("_id name email permission phoneNumber createdAt updatedAt");
-    return res.json(me);
+    return res.status(200).json(me);
+};
+
+export const getUserById = async (req, res) => {
+    try {
+        // Get the user ID from the URL parameter
+        const { id } = req.params;
+        // Find the user by the ID from the request
+        const user = await User.findById(id)
+            .select("_id name email permission phoneNumber createdAt updatedAt");
+
+        // If the user doesn't exist, return a 404 error
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Return the user data
+        return res.status(200).json(user);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Server error" });
+    }
 };
 
 // Updates name and phone number /api/me  
