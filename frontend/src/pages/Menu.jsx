@@ -71,7 +71,8 @@ const Menu = (props) => {
           calories={item.calories}
           description={item.description}
           getCart={props.getCart}
-          updCartItemQty={props.updCartItemQty}
+          addItem={props.addItem}
+          removeItem={props.removeItem}
           logInUser={props.logInUser} 
           signUpUser={props.signUpUser}
         />

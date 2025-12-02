@@ -99,7 +99,7 @@ const App = () => {
       console.log(response);
       return { success: true }
     } catch (error) {
-      const msg = error.response?.data?.message || "Error logging out";
+      const msg = error.response?.data?.message || "Error changing permission";
       return { success: false, message: msg };    
     }
   }
@@ -128,8 +128,8 @@ const App = () => {
   };
 
   // CART OPERATIONS
-  // Update cart item quantity
-  async function updCartItemQty(itemID, quantity) {
+  // Add an item to cart
+  async function addItem(itemID, quantity) {
     try {
       await api.post("/cart/addItem", {
             menuItemId: itemID,
@@ -143,9 +143,23 @@ const App = () => {
   }
 
   // Remove an item from cart
-  async function removeFromCart(itemID) {
+  async function removeItem(itemID) {
     try {
         await api.delete(`/cart/removeItem/${itemID}`);
+        return { success: true }
+    } catch (error) {
+      const msg = error.response?.data?.message || "Error removing item from cart";
+      return { success: false, message: msg };
+    }
+  };
+
+  // Remove an item from cart
+  async function removeFromCart(itemID) {
+    try {
+        await api.put(`/cart/updateItemQty/${itemID}`, {
+          cartItemId: itemID,
+          quantity: 0
+        });
         return { success: true }
     } catch (error) {
       const msg = error.response?.data?.message || "Error removing item from cart";
@@ -205,11 +219,11 @@ const App = () => {
     },
     {
       path:"/catalog/:id",
-      element: <Menu user={userInfo.name} getCart={getCart} getMenuItems={getMenuItems} updCartItemQty={updCartItemQty} logInUser={logInUser} signUpUser={signUpUser} />
+      element: <Menu user={userInfo.name} getCart={getCart} getMenuItems={getMenuItems} addItem={addItem} removeItem={removeItem} logInUser={logInUser} signUpUser={signUpUser} />
     },
     {
       path:"/cart/",
-      element: <Cart user={userInfo.name} usersEmail={userInfo.email} getCart={getCart} updCartItemQty={updCartItemQty} removeFromCart={removeFromCart} createOrder={createOrder} />
+      element: <Cart user={userInfo.name} usersEmail={userInfo.email} getCart={getCart} addItem={addItem} removeItem={removeItem} removeFromCart={removeFromCart} createOrder={createOrder} />
     },
     {
       path:"/profile/",

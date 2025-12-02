@@ -53,7 +53,7 @@ const MenuItem = (props) => {
     if (props.user === "guest") {
       handleCartBtnClick(e);
     } else {
-      const result = await props.updCartItemQty(props.id, 1);
+      const result = await props.addItem(props.id);
       if (result.success) {
         toast.success("Added item to cart");
         incAmountInCart();
@@ -71,7 +71,7 @@ const MenuItem = (props) => {
       handleCartBtnClick(e);
     } else {
       if (amountInCart > 0) {
-        const result = await props.updCartItemQty(props.id, -1);
+        const result = await props.removeItem(props.id);
         if (result.success) {
           toast.success("Removed item from cart");
           decAmountInCart();

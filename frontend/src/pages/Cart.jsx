@@ -1,7 +1,6 @@
 import CartItem from '../components/CartItem'
 import OrderConfirmPopup from '../components/OrderConfirmPopup'
 import "./Cart.css";
-import shackimg from '../assets/halalshack.png'
 import { useState, useEffect } from 'react';
 
 const Cart = (props) => {
@@ -80,7 +79,8 @@ const Cart = (props) => {
               idInCart={item._id}
               id={item.menuItem}
               quantity={item.quantity}
-              updCartItemQty={props.updCartItemQty}
+              addItem={props.addItem}
+              removeItem={props.removeItem}
               removeFromCart={props.removeFromCart}
               removeFromCartUI={removeFromCartUI}
               increaseTotalUI={increaseTotalUI}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './CartItem.css'
 import toast from "react-hot-toast";
+import { clearCart } from '../../../backend/controllers/cartController';
 
 const MenuItem = (props) => {
   const [amountInCart, setAmountInCart] = useState(0);
@@ -21,12 +22,16 @@ const MenuItem = (props) => {
   function decAmountInCart() {
     const newAmount = amountInCart - 1;
     setAmountInCart(newAmount);
+    if (newAmount === 0) {
+			props.removeFromCartUI(props.idInCart);
+      props.decreaseTotalUI(props.price, amountInCart);
+    }
   }
 
   // Handle click on add to cart.
   async function handleAddToCart(e) {
 		e.preventDefault();
-		const result = await props.updCartItemQty(props.id, 1);
+		const result = await props.addItem(props.id);
 		if (result.success) {
 			toast.success("Added 1 item to cart");
 			incAmountInCart();
@@ -41,7 +46,7 @@ const MenuItem = (props) => {
   async function handleSubFromCart(e) {
 		e.preventDefault();
 		if (amountInCart > 0) {
-			const result = await props.updCartItemQty(props.id, -1);
+			const result = await props.removeItem(props.idInCart);
 			if (result.success) {
 				toast.success("Removed item from cart");
 				decAmountInCart();
