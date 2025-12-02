@@ -8,7 +8,8 @@ import toast from "react-hot-toast";
 const Navbar = (props) => {
   const [popup, setPopup] = useState(false); // Tracks whether AuthPopup should be displayed
   let profileLink;
-  
+  const isAdmin = props.permission === "admin";
+
   function togglePopup () {
     let prev = popup;
     setPopup(!prev);
@@ -57,6 +58,9 @@ const Navbar = (props) => {
             {profileLink}
             <Link to="/orders" onClick={handleLinkClick}>Orders </Link>
             <Link to="/contact">Contact </Link>
+            {isAdmin && (
+              <Link to="/admin/users">Admin </Link>
+            )}
           </li>
         </ul>
       </nav>

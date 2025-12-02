@@ -7,6 +7,7 @@ import Menu from './pages/Menu';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile';
 import Orders from './pages/Orders';
+import AdminUsers from "./pages/AdminUsers";
 import { Toaster } from "react-hot-toast";
 import api from "./lib/axios";
 import './index.css'
@@ -253,6 +254,10 @@ const App = () => {
     {
       path:"/orders/",
       element: <Orders userInfo={userInfo} getUserById={getUserById} getOrders={getOrders} getMyOrders={getMyOrders} claimOrder={claimOrder} />
+    },
+    {
+      path: "/admin/users",
+      element: <AdminUsers userInfo={userInfo} />
     }
   ]);
 
@@ -260,7 +265,7 @@ const App = () => {
 
     <div className="App">
 
-        <Navbar user={userInfo.name} logInUser={logInUser} signUpUser={signUpUser} />
+        <Navbar user={userInfo.name} permission = {userInfo.permission} logInUser={logInUser} signUpUser={signUpUser} />
         <Toaster 
         position="top-left"
         reverseOrder={false}

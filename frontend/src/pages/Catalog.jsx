@@ -167,7 +167,7 @@ const Catalog = (props) => {
       {isAdmin && (
         <div className="admin-actions">
           <button className="admin-btn" onClick={handleOpenAdd}>
-            + Add restaurant
+            Add restaurant
           </button>
         </div>
       )}
@@ -182,7 +182,7 @@ const Catalog = (props) => {
         </div>
 
         <div className="dropdown">
-          <button className="dropbtn">Filter location</button>
+          <button className="dropbtn">{selectedLocation === "" ? "All locations" : selectedLocation}</button>
           <div className="dropdown-content">
             <Link to="/catalog" onClick={() => handleSelect("")}>All</Link>
             <Link to="/catalog" onClick={() => handleSelect("Commons")}>Commons</Link>
